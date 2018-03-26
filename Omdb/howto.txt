@@ -1,7 +1,9 @@
 to export
+.import ../path/*.csv
 .header on
 .mode csv
 .output merge.csv
+select * from omdb inner join metacritic on metacritic.Title = omdb.title inner join youtube on omdb.title=youtube.common_title inner join opus on omdb.title=opus.movie_name;
 (sql command) writes into merge.csv
 .exit
 
