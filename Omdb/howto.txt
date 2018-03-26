@@ -1,0 +1,8 @@
+to export
+.header on
+.mode csv
+.output merge.csv
+(sql command) writes into merge.csv
+.exit
+
+
