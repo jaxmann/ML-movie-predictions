@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="res/css/stylesheet.css" />
+
+    <script type="text/javascript" src="vend/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="vend/d3plus.full.min.js"></script>
+
+    <meta charset="utf-8" />
+    <title>Movie Predictions</title>
+</head>
+
+<body>
+    <div id="graph"></div>
+
+    <script>
+        var dataURL = "res/fulldata-cleaner.csv";
+        var xField = "ReleaseDate";
+        var yField = "Domestic Total Gross";
+
+        var selectorOptions = {
+            buttons: [{
+                step: 'month',
+                stepmode: 'backward',
+                count: 1,
+                label: '1m'
+            }, {
+                step: 'month',
+                stepmode: 'backward',
+                count: 6,
+                label: '6m'
+            }, {
+                step: 'year',
+                stepmode: 'todate',
+                count: 1,
+                label: 'YTD'
+            }, {
+                step: 'year',
+                stepmode: 'backward',
+                count: 1,
+                label: '1y'
+            }, {
+                step: 'all',
+            }],
+        };
+
+        Plotly.d3.csv(dataURL, function(err, rawData) {
+            if (err) throw err;
+
+            var data = prepData(rawData);
+            console.log(data);
+            var layout = {
+                title: "Revenue vs Release Date",
+                xaxis: {
+                    rangeselector: selectorOptions,
+                    rangeslider: {}
+                },
+                yaxis: {
+                    fixedrange: true
+                }
+            };
+            Plotly.plot('graph', data, layout);
+        });
+
+        function prepData(rawData) {
+            var x = [];
+            var y = [];
+
+            rawData.forEach(function(datum, i) {
+                x.push(new Date(datum[xField]));
+                y.push(datum[yField]);
+            });
+
+            return [{
+                mode: "lines",
+                x: x,
+                y: y
+            }];
+        }
+    </script>
+</body>
+</html>
