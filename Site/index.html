@@ -13,6 +13,7 @@
 
 <body>
     <div id="graph"></div>
+    <div id="graph2"></div>
 
     <script>
         var dataURL = "res/fulldata-cleaner.csv";
@@ -49,7 +50,6 @@
             if (err) throw err;
 
             var data = prepData(rawData);
-            console.log(data);
             var layout = {
                 title: "Revenue vs Release Date",
                 xaxis: {
@@ -66,18 +66,144 @@
         function prepData(rawData) {
             var x = [];
             var y = [];
+            var text = [];
 
             rawData.forEach(function(datum, i) {
                 x.push(new Date(datum[xField]));
                 y.push(datum[yField]);
+                text.push(datum["title"]);
             });
 
             return [{
-                mode: "lines",
+                mode: "markers",
+                type: "scatter",
                 x: x,
-                y: y
+                y: y,
+                text: text
             }];
         }
+    </script>
+
+    <script>
+        var dataURL = "res/fulldata-cleaner.csv";
+        var xField = "ReleaseDate";
+        var yField = "Domestic Total Gross";
+
+        Plotly.d3.csv(dataURL, function(err, data) {
+            if (err) throw err;
+
+            // Create a lookup table to sort by year
+            var lookup = {};
+            function getData(year, rating) {
+                var byYear, trace;
+                // If year not found
+                if (!(byYear = lookup[year])) {
+                    byYear = lookup[year] = {};
+                };
+                // If trace doesn't exist yet, create one
+                if (!(trace = byYear[rating])) {
+                    trace = byYear[rating] = {
+                        x: [],
+                        y: [],
+                        id: [],
+                        text: [],
+                        marker: {size: []}
+                    };
+                }
+                return trace;
+            }
+
+            // Iterate through each row and append to correct year trace
+            for (var i = 0; i < data.length; i++) {
+                var datum = data[i];
+                var trace = getData(datum.year, datum.rated);
+                trace.text.push(datum.rated);
+                trace.id.push(datum.title);
+                trace.x.push(new Date(datum.ReleaseDate));
+                trace.y.push(datum["Domestic Total Gross"]);
+                trace.marker.size.push(1);
+            }
+
+            // Get group names
+            var years = Object.keys(lookup);
+            var firstYear = lookup[years[0]];
+            var ratings = Object.keys(firstYear);
+
+            // Create the main traces
+            var traces = [];
+            for (i = 0; i < ratings.length; i++) {
+                var data = firstYear[ratings[i]];
+                console.log(data);
+                traces.push({
+                    name: ratings[i],
+                    x: data.x.slice(),
+                    y: data.y.slice(),
+                    id: data.id.slice(),
+                    text: data.text.slice(),
+                    mode: "markers"
+                });
+            }
+
+            // Create a frame for each year
+            var frames = [];
+            for (i = 0; i < years.length; i++) {
+                frames.push({
+                    name: years[i],
+                    data: ratings.map(function (rating) {
+                        return getData(years[i], rating);
+                    })
+                })
+            }
+
+            // Now create slider steps, one for each frame. The slider
+            // executes a plotly.js API command (here, Plotly.animate).
+            // In this example, we'll animate to one of the named frames
+            // created in the above loop.
+            var sliderSteps = [];
+            for (i = 0; i < years.length; i++) {
+                sliderSteps.push({
+                method: 'animate',
+                label: years[i],
+                args: [[years[i]], {
+                    mode: 'immediate',
+                    transition: {duration: 300},
+                    frame: {duration: 300, redraw: false},
+                }]
+                });
+            }
+
+            var layout = {
+                title: "Revenue vs Release Date vs Rating",
+                xaxis: {
+                title: 'Release Date',
+                },
+                yaxis: {
+                title: 'Domestic Total Gross',
+                type: 'log'
+                },
+                hovermode: 'closest',
+                // Finally, add the slider and use `pad` to position it
+                // nicely next to the buttons.
+                sliders: [{
+                pad: {l: 130, t: 55},
+                currentvalue: {
+                    visible: true,
+                    prefix: 'Year:',
+                    xanchor: 'right',
+                    font: {size: 20, color: '#666'}
+                },
+                steps: sliderSteps
+                }]
+            };
+
+            // Create the plot:
+            Plotly.plot('graph2', {
+                data: traces,
+                layout: layout,
+                frames: frames,
+            });
+        });
+
     </script>
 </body>
 </html>
