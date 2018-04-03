@@ -1,7 +1,9 @@
 import pandas
 import csv
 
-fd = pandas.DataFrame.from_csv('../Data/fullData-cleaner.tsv', sep='\t', header=0)
+fd = pandas.DataFrame.from_csv('train.tsv', sep='\t', header=0)
+fdTest = pandas.DataFrame.from_csv('test.tsv', sep='\t', header=0)
+
 
 actorDict = {}
 directorDict = {}
@@ -12,6 +14,7 @@ ratingDict = {}
 productionDict = {}
 distributionDict = {}
 
+#using only training set
 for movieName, row in fd.iterrows():
     budg = 0
     gross = 0
@@ -96,7 +99,7 @@ for movieName, row in fd.iterrows():
         distributionDict[distribution].append(revenue)
 
 
-
+#average value added for each category
 for act in actorDict:
     actorDict[act] = sum(actorDict[act])/float(len(actorDict[act]))
 
@@ -121,13 +124,11 @@ for prod in productionDict:
 for dist in distributionDict:
     distributionDict[dist] = sum(distributionDict[dist])/float(len(distributionDict[dist]))
 
-# print(genreDict['Action'])
-# print(genreDict['Comedy'])
-# print(genreDict['Romance'])
-
 
 # AR = average revenue (i.e. sum of average revenue for all actors/directors/languages/etc in the movie based on other
 # movies those actors/directors/languages/etc are in
+
+#writing into TRAIN set
 fd['actorAR'] = 0
 fd['directorAR'] = 0
 fd['languageAR'] = 0
@@ -205,12 +206,89 @@ for movieName, row in fd.iterrows():
     else:
         fd.at[movieName,'distributionAR'] = distributionDict[distribution]
 
+# writing into TRAIN set
+fdTest['actorAR'] = 0
+fdTest['directorAR'] = 0
+fdTest['languageAR'] = 0
+fdTest['countryAR'] = 0
+fdTest['genreAR'] = 0
+fdTest['ratingAR'] = 0
+fdTest['productionAR'] = 0
+fdTest['distributionAR'] = 0
 
+for movieName, row in fdTest.iterrows():
+
+    actorArr = row['actors'].split(";");
+    for actor in actorArr:
+        actor = actor.strip()
+
+        if actor not in actorDict:
+            pass
+        else:
+            fdTest.at[movieName, 'actorAR'] += actorDict[actor]
+
+    directorArr = row['director'].split(";");
+    for director in directorArr:
+        director = director.strip()
+
+        if director not in directorDict:
+            pass
+        else:
+            fdTest.at[movieName, 'directorAR'] += directorDict[director]
+
+    languageArr = row['languages'].split(";");
+    for language in languageArr:
+        language = language.strip()
+
+        if language not in languageDict:
+            pass
+        else:
+            fdTest.at[movieName, 'languageAR'] += languageDict[language]
+
+    countryArr = row['country'].split(";");
+    for country in countryArr:
+        country = country.strip()
+
+        if country not in countryDict:
+            pass
+        else:
+            fdTest.at[movieName, 'countryAR'] += countryDict[country]
+
+    genreArr = row['genres'].split(";");
+    for genre in genreArr:
+        genre = genre.strip()
+
+        if genre not in genreDict:
+            pass
+        else:
+            fdTest.at[movieName, 'genreAR'] += genreDict[genre]
+
+    rating = row['rated']
+    rating = rating.strip()
+    if rating not in ratingDict:
+        pass
+    else:
+        fdTest.at[movieName, 'ratingAR'] += ratingDict[rating]
+
+    production = row['production']
+    production = str(production).strip()
+    if production not in productionDict:
+        pass
+    else:
+        fdTest.at[movieName, 'productionAR'] = productionDict[production]
+
+    distribution = row['Distributor']
+    distribution = distribution.strip()
+    if distribution not in distributionDict:
+        pass
+    else:
+        fdTest.at[movieName, 'distributionAR'] = distributionDict[distribution]
 
 # print(fd.at['This Means War','genreAR'])
 
 print('it might have worked')
-fd.to_csv('out.tsv', sep='\t', encoding='utf-8')
+fd.to_csv('outTrain.tsv', sep='\t', encoding='utf-8')
+fdTest.to_csv('outTest.tsv', sep='\t', encoding='utf-8')
 
 
 
