@@ -16,9 +16,9 @@
     <div id="graph2"></div>
 
     <script>
-        var dataURL = "res/fulldata-cleaner.csv";
-        var xField = "ReleaseDate";
-        var yField = "Domestic Total Gross";
+        var dataURL = "res/fullData-cleaner.csv";
+        var xField = "releaseDate";
+        var yField = "domesticTotalGross";
 
         var selectorOptions = {
             buttons: [{
@@ -85,9 +85,9 @@
     </script>
 
     <script>
-        var dataURL = "res/fulldata-cleaner.csv";
-        var xField = "ReleaseDate";
-        var yField = "Domestic Total Gross";
+        var dataURL = "res/fullData-cleaner.csv";
+        var xField = "releaseDate";
+        var yField = "domesticTotalGross";
 
         Plotly.d3.csv(dataURL, function(err, data) {
             if (err) throw err;
@@ -117,10 +117,12 @@
             for (var i = 0; i < data.length; i++) {
                 var datum = data[i];
                 var trace = getData(datum.year, datum.rated);
+                var releaseDate = new Date(datum.releaseDate);
+                releaseDate.setFullYear(0);
                 trace.text.push(datum.rated);
                 trace.id.push(datum.title);
-                trace.x.push(new Date(datum.ReleaseDate));
-                trace.y.push(datum["Domestic Total Gross"]);
+                trace.x.push(releaseDate);
+                trace.y.push(datum["domesticTotalGross"]);
                 trace.marker.size.push(1);
             }
 
@@ -133,13 +135,12 @@
             var traces = [];
             for (i = 0; i < ratings.length; i++) {
                 var data = firstYear[ratings[i]];
-                console.log(data);
                 traces.push({
                     name: ratings[i],
                     x: data.x.slice(),
                     y: data.y.slice(),
                     id: data.id.slice(),
-                    text: data.text.slice(),
+                    text: data.id.slice(),
                     mode: "markers"
                 });
             }
@@ -162,13 +163,13 @@
             var sliderSteps = [];
             for (i = 0; i < years.length; i++) {
                 sliderSteps.push({
-                method: 'animate',
-                label: years[i],
-                args: [[years[i]], {
-                    mode: 'immediate',
-                    transition: {duration: 300},
-                    frame: {duration: 300, redraw: false},
-                }]
+                    method: 'animate',
+                    label: years[i],
+                    args: [[years[i]], {
+                        mode: 'immediate',
+                        transition: {duration: 300},
+                        frame: {duration: 300, redraw: false},
+                    }]
                 });
             }
 
