@@ -206,8 +206,20 @@ for movieName, row in fd.iterrows():
     else:
         fd.at[movieName,'distributionAR'] = distributionDict[distribution]
 
-[movieName, 'genreAR'] += genreDict[genre]
-print(genreDict)
+# genreSet = set()
+# for movieName, row in fd.iterrows():
+#
+#     genreArr = row['genres'].split(";");
+#     for genre in genreArr:
+#         genre = genre.strip()
+#
+#
+#         if genre not in genreDict:
+#             pass
+#         else:
+#             print(genre, fd.at[movieName, 'genreAR'])
+            # fd.at[movieName, 'genreAR'] += genreDict[genre]
+print(ratingDict)
 
 # writing into TRAIN set
 fdTest['actorAR'] = 0

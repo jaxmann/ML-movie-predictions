@@ -51,32 +51,51 @@
 
 		  <div class="tab-content">
 		    <div id="home" class="tab-pane fade in active">
-		      <h3>HOME</h3>
-		      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+		      <h3>Predicting Movie Revenue</h3>
+
+				<p>Currently, ML models are used to predict revenue. Shortcomings include limits on data types and size. We will incorporate novel ideas such as sentiment from new sources - Youtube like/dislike ratio for movie trailers and Google Trends data to identify geographic patterns in historical movie interest. We will also look at how successful actors, directors, etc. have been in the past and use their average revenue-added per movie to predict how those same actors will perform in future movies. These generated data points will augment the common movie data available on the internet. Furthermore, we will visualize the relationship between actors in a graph to indicate success-by-association - actors more closely linked to successful actors will be assumed to be more successful.</p>
+				<h4>Innovations</h4>
+				<ul>
+				<li>New sentiment sources: Youtube likes and dislikes, Google Trends interest by country which others have not used.</li>
+				<li>Historical value added for actors, directors, languages available to view the movie, country movie was produced in, genre, and rating. This value is calculated from how profitable movies with these features were during the training period.</li>
+				<li>Sentiment analysis on the plot blurb released by production studios for polarity, subjectivity, and confidence - different from the usual sentiment performed on blogs or Twitter</li>
+				<li>Choropleth map of worldwide interest in movies by genre, and using genre interest to determine if movies of that genre will be successful in that region</li>
+				</ul>
+				<h4>Description of Approaches</h4>
+				<p>We will use linear regression to predict domestic box office gross using the following features: budget, movie rating, runtime, pre-screen critic ratings, month and year of release, Youtube likes/dislikes, plot description sentiment, and average revenue added for each actor, director, language, genre, rating, production company, and distribution company within the training period. We will also use SVM and KNN, on the same features, to categorize whether an upcoming movie will be profitable. Our user interface will be a web-based GUI built on D3, to display all visualizations in one place. We will have an actor social graph showing association between actors based on average revenue added, a time-bar visualization showing the relationship between release date and revenue, a tree map with a dropdown to quickly visualize the common and generated features we use in our prediction models, and a world map visualization of with what relative frequency people search for movies by genre and the country the movie was produced in.</p>
+				<h4>Experiments</h4>
+				<p>We will use data from 2005-2018, selecting the “top” movies according to IMDb for each year, and removing rows for which there is insufficient data. Data gathered from IMDb, MetaCritic, Youtube, AYLien sentiment, Box Office Mojo, and Google Trends. </p>
+
+				<p>Our regression experiment predicts the raw domestic gross that a movie will yield during an average 6-week run in box offices based on data that would be available about 1-week in advance of the first screening (pre-screen critic reviews, budget, and Youtube trailer like/dislike ratio). We will use SVM and KNN to predict whether a movie will outperform its budget. For the test data, we will simulate being blind to any future metrics such as user reviews or profit. </p>
+
+				<h4>Evaluation</h4>
+				<p>We expect to be able to predict earned box office revenue within ten percent of the actual results. We want to be able to predict movie profitability better with our additional generated features than with what we refer to as “common” data (features such as budget, release date, etc. which can simply be found on the web). </p>
+
+		      
 		    </div>
+
 		    <div id="menu1" class="tab-pane fade">
-		      <h3>Menu 1</h3>
+		      <h3>Linear Regression (OLS) Model</h3>
 		      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 		    </div>
+
 		    <div id="menu2" class="tab-pane fade">
-		      <h3>Menu 2</h3>
+		      <h3>K-Nearest Neighbor</h3>
 		      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
 		    </div>
+
 		    <div id="menu3" class="tab-pane fade">
-		      <h3>Menu 3</h3>
+		      <h3>Support Vector Machine</h3>
 		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		    </div>
+
 		    <div id="menu4" class="tab-pane fade">
-		      <h3>Custom Features (subset)</h3>
-
-
-
-		      	
+		      <h3>Custom Features (subset)</h3>	
 		      <form>
 		      	<div class="row">
 			      <div class="col-xs-6 form-group">
 				    <label for="exampleInputEmail1">Rating</label>
-				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="PG, PG-13, R, NC-17">
+				    <input type="text" class="form-control" id="inputRating" aria-describedby="emailHelp" placeholder="PG, PG-13, R, NC-17">
 <!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to PG-13</small>
  -->				  </div>
 			      <div class="col-xs-6 form-group">
@@ -136,21 +155,25 @@
 
 		    </div>
 		    <div id="menu5" class="tab-pane fade">
-		      <h3>Menu 3</h3>
+		      <h3>Scatter Plots</h3>
 		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		    </div>
+
 		    <div id="menu6" class="tab-pane fade">
-		      <h3>Menu 3</h3>
+		      <h3>Actor Graph</h3>
 		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		    </div>
+
 		    <div id="menu7" class="tab-pane fade">
-		      <h3>Menu 3</h3>
+		      <h3>Choropleth</h3>
 		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		    </div>
+
 		    <div id="menu8" class="tab-pane fade">
-		      <h3>Menu 3</h3>
+		      <h3>Time Bar Chart</h3>
 		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 		    </div>
+
 		    <div id="menu9" class="tab-pane fade">
 		      <h3>Menu 3</h3>
 		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
@@ -161,33 +184,56 @@
 
 		</body>
 		<script>
+
+		// { label: "Sci-Fi", value: 7103249 },
+		// 			{ label: "Crime", value: 2422306 },
+		// 			{ label: "Romance", value: 10769463 },
+		// 			{ label: "Animation", value: 1877737 },
+		// 			{ label: "Music", value: 14091202 },
+		// 			{ label: "Comedy", value: 11237616 },
+		// 			{ label: "War", value: -2611214 },
+		// 			{ label: "Horror", value: 18267440 },
+		// 			{ label: "Western", value: 13823376 },
+		// 			{ label: "Thriller", value: 10871198 },
+		// 			{ label: "Adventure", value: 9177757 },
+		// 			{ label: "Mystery", value: 1309341 },
+		// 			{ label: "Short", value: -8026285 },
+		// 			{ label: "Drama", value: 5919330 },
+		// 			{ label: "Action", value: 5122789 },
+		// 			{ label: "Documentary", value: 6371952 },
+		// 			{ label: "Musical", value: 9578002 },
+		// 			{ label: "History", value: 1323353 },
+		// 			{ label: "Family", value: 18374461 },
+		// 			{ label: "Fantasy", value: -381598 },
+		// 			{ label: "Sport", value: 12280860 },
+		// 			{ label: "Biography", value: 5011643 }
+
 			var input = document.getElementById("myinput");
 
-			// Show label but insert value into the input:
 			new Awesomplete(input, {
 				list: [
-					{ label: "Sci-Fi", value: 7103249 },
-					{ label: "Crime", value: 2422306 },
-					{ label: "Romance", value: 10769463 },
-					{ label: "Animation", value: 1877737 },
-					{ label: "Music", value: 14091202 },
-					{ label: "Comedy", value: 11237616 },
-					{ label: "War", value: -2611214 },
-					{ label: "Horror", value: 18267440 },
-					{ label: "Western", value: 13823376 },
-					{ label: "Thriller", value: 10871198 },
-					{ label: "Adventure", value: 9177757 },
-					{ label: "Mystery", value: 1309341 },
-					{ label: "Short", value: -8026285 },
-					{ label: "Drama", value: 5919330 },
-					{ label: "Action", value: 5122789 },
-					{ label: "Documentary", value: 6371952 },
-					{ label: "Musical", value: 9578002 },
-					{ label: "History", value: 1323353 },
-					{ label: "Family", value: 18374461 },
-					{ label: "Fantasy", value: -381598 },
-					{ label: "Sport", value: 12280860 },
-					{ label: "Biography", value: 5011643 }
+					"Sci-Fi",
+					"Crime",
+					"Romance",
+					"Animation",
+					"Music",
+					"Comedy",
+					"War",
+					"Horror",
+					"Western",
+					"Thriller",
+					"Adventure",
+					"Mystery",
+					"Short",
+					"Drama",
+					"Action",
+					"Documentary",
+					"Musical",
+					"History",
+					"Family",
+					"Fantasy",
+					"Sport",
+					"Biography"
 				], filter: function (text, input) { //accept regex entry
 					var regex = new RegExp(input, 'i')
 					if (text.match(regex)) {
@@ -197,6 +243,33 @@
 					}
 				}
 			});
+
+			var inputRating = document.getElementById("inputRating");
+
+			// Show label but insert value into the input:
+			new Awesomplete(inputRating, {
+				list: [
+					"G",
+					"NC-17",
+					"PG-13",
+					"R",
+					"PG"
+					
+				], filter: function (text, input) { //accept regex entry
+					var regex = new RegExp(input, 'i')
+					if (text.match(regex)) {
+						return true
+					} else {
+						return false;
+					}
+				}
+			});
+
+			// { label: "G", value: 18385330 },
+			// 		{ label: "NC-17", value: -5851569 },
+			// 		{ label: "PG-13", value: 9899276 }
+			// 		{ label: "R", value: 8133748 },
+			// 		{ label: "PG", value: 12706625 },
 
 
 		</script>

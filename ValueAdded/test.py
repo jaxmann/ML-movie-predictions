@@ -206,6 +206,8 @@ for movieName, row in fd.iterrows():
     else:
         fd.at[movieName,'distributionAR'] = distributionDict[distribution]
 
+
+
 # writing into TRAIN set
 fdTest['actorAR'] = 0
 fdTest['directorAR'] = 0
