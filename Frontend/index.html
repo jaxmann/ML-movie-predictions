@@ -1,0 +1,204 @@
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+		  <title>Money Movies</title>
+		  <meta charset="utf-8">
+		  <meta name="viewport" content="width=device-width, initial-scale=1">
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		  <!-- Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+			<!-- Optional theme -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+			<link rel="stylesheet" href="css/awesomplete.css" />
+
+
+			<script src="js/awesomplete.js" async></script>
+
+		<style>
+		.form-group {
+			/*width: 25%;*/
+		}
+		.awesomplete {
+			display: block;
+		}
+		</style>
+		</head>
+		<body>
+		<!-- need to have: ML Models, Visualizations (scatter plots x4, actor relationship graph, choropleth, time bar), "custom" movie form,  -->
+		<!-- color code by "type" i.e. ML models all one color -->
+		<div class="container">
+		  <h2>Money Movies</h2>
+
+		  <ul class="nav nav-tabs">
+		    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+		    <li><a data-toggle="tab" href="#menu1">OLS</a></li>
+		    <li><a data-toggle="tab" href="#menu2">KNN</a></li>
+		    <li><a data-toggle="tab" href="#menu3">SVM</a></li>
+		    <li><a data-toggle="tab" href="#menu4">Custom Movie</a></li>
+		    <li><a data-toggle="tab" href="#menu5">Scatter Plots</a></li>
+		    <li><a data-toggle="tab" href="#menu6">Actor Graph</a></li>
+		    <li><a data-toggle="tab" href="#menu7">Choropleth</a></li>
+		    <li><a data-toggle="tab" href="#menu8">Time Bar</a></li>
+<!-- 		    <li><a data-toggle="tab" href="#menu9">SVM Model</a></li>
+ -->		  </ul>
+
+		  <div class="tab-content">
+		    <div id="home" class="tab-pane fade in active">
+		      <h3>HOME</h3>
+		      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+		    </div>
+		    <div id="menu1" class="tab-pane fade">
+		      <h3>Menu 1</h3>
+		      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+		    </div>
+		    <div id="menu2" class="tab-pane fade">
+		      <h3>Menu 2</h3>
+		      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+		    </div>
+		    <div id="menu3" class="tab-pane fade">
+		      <h3>Menu 3</h3>
+		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		    </div>
+		    <div id="menu4" class="tab-pane fade">
+		      <h3>Custom Features (subset)</h3>
+
+
+
+		      	
+		      <form>
+		      	<div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Rating</label>
+				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="PG, PG-13, R, NC-17">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to PG-13</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Runtime (minutes)</label>
+				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter runtime">
+				    <!-- <small id="emailHelp" class="form-text text-muted">Defaults to median value of training data (100)<data></data>)</small> -->
+				  </div>
+			  </div>
+			  <div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="genreBox">Genre</label>
+				    <input type="text" class="form-control" id="myinput" aria-describedby="emailHelp" placeholder="Comedy, Drama, Thriller, etc...">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to Comedy</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Critic Rating</label>
+				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="0-100">
+				    <!-- <small id="emailHelp" class="form-text text-muted">Defaults to 5<data></data>)</small> -->
+				  </div>
+			  </div>
+			  <div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Year Released</label>
+				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="2005-2012">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to 50</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Month Released</label>
+				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="1-12">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to median value of training data (100)	<data></data>)</small>
+ -->				  </div>
+			  </div>
+			  <div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Production Budget</label>
+				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="0-500000000">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to 50</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">YouTube Likes (of trailer)</label>
+				    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="0-50000">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to median value of training data (100)	<data></data>)</small>
+ -->				  </div>
+			  </div>
+			   <div class="row">
+			      <div class="col-xs-12 form-group">
+				    <label for="exampleInputEmail1">Plot</label>
+				    <textarea class="form-control" rows="5" id="comment" plaecholder="Any plot description"></textarea>
+
+<!-- 				    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Any plot description">
+ --><!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to 50</small>
+ -->				  </div>
+			      
+			  </div>
+			  <button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+
+		    </div>
+		    <div id="menu5" class="tab-pane fade">
+		      <h3>Menu 3</h3>
+		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		    </div>
+		    <div id="menu6" class="tab-pane fade">
+		      <h3>Menu 3</h3>
+		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		    </div>
+		    <div id="menu7" class="tab-pane fade">
+		      <h3>Menu 3</h3>
+		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		    </div>
+		    <div id="menu8" class="tab-pane fade">
+		      <h3>Menu 3</h3>
+		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		    </div>
+		    <div id="menu9" class="tab-pane fade">
+		      <h3>Menu 3</h3>
+		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		    </div>
+
+		  </div>
+		</div>
+
+		</body>
+		<script>
+			var input = document.getElementById("myinput");
+
+			// Show label but insert value into the input:
+			new Awesomplete(input, {
+				list: [
+					{ label: "Sci-Fi", value: 7103249 },
+					{ label: "Crime", value: 2422306 },
+					{ label: "Romance", value: 10769463 },
+					{ label: "Animation", value: 1877737 },
+					{ label: "Music", value: 14091202 },
+					{ label: "Comedy", value: 11237616 },
+					{ label: "War", value: -2611214 },
+					{ label: "Horror", value: 18267440 },
+					{ label: "Western", value: 13823376 },
+					{ label: "Thriller", value: 10871198 },
+					{ label: "Adventure", value: 9177757 },
+					{ label: "Mystery", value: 1309341 },
+					{ label: "Short", value: -8026285 },
+					{ label: "Drama", value: 5919330 },
+					{ label: "Action", value: 5122789 },
+					{ label: "Documentary", value: 6371952 },
+					{ label: "Musical", value: 9578002 },
+					{ label: "History", value: 1323353 },
+					{ label: "Family", value: 18374461 },
+					{ label: "Fantasy", value: -381598 },
+					{ label: "Sport", value: 12280860 },
+					{ label: "Biography", value: 5011643 }
+				], filter: function (text, input) { //accept regex entry
+					var regex = new RegExp(input, 'i')
+					if (text.match(regex)) {
+						return true
+					} else {
+						return false;
+					}
+				}
+			});
+
+
+		</script>
+		
+		</html>
