@@ -365,14 +365,18 @@
 				}
 
 				$.ajax({
-					type : "GET",
+					type : 'GET',
 					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-					url : "ourURL" + path,
+					url : '/ourURL' + path,
 					data: data,
-					success : function(result) {
-						console.log('model called successfully')
+					success : function(response) {
+					    console.log(response);
+						console.log('model called successfully');
 						//display popup with results
 						// window.location.replace("/");
+					},
+					error: function(error){
+						console.log(error);
 					}
 				});
 			}
