@@ -1,9 +1,18 @@
+
+# coding: utf-8
+
+# In[48]:
+
+
 import numpy as np
 import pandas as pd
 import itertools
 
 from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+
+from sklearn import preprocessing
 
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
@@ -11,8 +20,12 @@ from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
 # Define Classifiers
-knn_clf = KNeighborsClassifier()
-svm_clf = svm.SVC(kernel='linear', max_iter=1000000)
+knn_5_clf = KNeighborsClassifier(n_neighbors=5)
+knn_10_clf = KNeighborsClassifier(n_neighbors=10)
+knn_20_clf = KNeighborsClassifier(n_neighbors=20)
+knn_50_clf = KNeighborsClassifier(n_neighbors=50)
+svm_clf = svm.SVC(kernel='linear', max_iter=1000000, C=0.01, tol=0.0001)
+rf_clf = RandomForestClassifier(n_estimators=50, criterion='gini', random_state=1000)
 
 def is_positive(row):
     if row > 0:
@@ -75,49 +88,106 @@ def fit_test_and_plot(X_train, X_test, Y_train, Y_test, model, model_name, title
     plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True, title=title)
     plt.show()
 
-if __name__ == "__main__":
 
-	training_data = pd.read_csv("../Data/outTrain.tsv", sep="\t")
-	testing_data = pd.read_csv("../Data/outTest.tsv", sep="\t")
+# In[2]:
 
-	training_profit = training_data["Domestic Total Gross"] - training_data["Production Budget"]
-	testing_profit = testing_data["Domestic Total Gross"] - testing_data["Production Budget"]
-	# profit
+if __name__=='__main__':
+    training_data = pd.read_csv("../Data/outTrain.tsv", sep="\t")
+    testing_data = pd.read_csv("../Data/outTest.tsv", sep="\t")
 
-	training_labels = training_profit.apply(is_positive)
-	testing_labels = testing_profit.apply(is_positive)
+    training_profit = training_data["Domestic Total Gross"] - training_data["Production Budget"]
+    testing_profit = testing_data["Domestic Total Gross"] - testing_data["Production Budget"]
+    # profit
 
-	# training_labels.value_counts()
-	# testing_labels.value_counts()
 
-	#==================================================
-	#==================================================
-	#==================================================
-	#			ALL NUMERIC FEATURES BELOW
-	#==================================================
-	#==================================================
-	#==================================================
+    # In[3]:
 
-	training_data = training_data[["year", "min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "viewCount", "commentCount", "likeCount", "dislikeCount", "Production Budget", "polarity_confidence", "subjectivity_confidence", "actorAR", "directorAR", "languageAR", "countryAR", "genreAR", "ratingAR", "productionAR", "distributionAR" ]]
-	testing_data = testing_data[["year", "min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "viewCount", "commentCount", "likeCount", "dislikeCount", "Production Budget", "polarity_confidence", "subjectivity_confidence", "actorAR", "directorAR", "languageAR", "countryAR", "genreAR", "ratingAR", "productionAR", "distributionAR" ]]
 
-	training_data = training_data.fillna(value=0)
-	testing_data = testing_data.fillna(value=0)
+    training_labels = training_profit.apply(is_positive)
+    testing_labels = testing_profit.apply(is_positive)
 
-	fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, knn_clf, "KNN", 'KNN Confusion Matrix')
-	fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, svm_clf, "Linear SVM", 'Linear SVM Confusion Matrix')
+    training_labels.value_counts()
+    testing_labels.value_counts()
 
-	#==================================================
-	#==================================================
-	#==================================================
-	#				COMMON FEATURES BELOW
-	#==================================================
-	#==================================================
-	#==================================================
 
-	training_data_common_feaures = training_data[["min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "Production Budget"]]
-	testing_data_common_features = testing_data[["min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "Production Budget"]]
+    # ## Predictions With All Numeric Features
 
-	fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, knn_clf, "KNN Common Features", 'KNN w/ Common Features Confusion Matrix')
-	fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, svm_clf, "Linear SVM Common Features", 'Linear SVM w/ Common Features Confusion Matrix')
+    # In[4]:
+
+
+    training_data = training_data[["year", "min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "viewCount", "commentCount", "likeCount", "dislikeCount", "Production Budget", "polarity_confidence", "subjectivity_confidence", "actorAR", "directorAR", "languageAR", "countryAR", "genreAR", "ratingAR", "productionAR", "distributionAR" ]]
+    testing_data = testing_data[["year", "min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "viewCount", "commentCount", "likeCount", "dislikeCount", "Production Budget", "polarity_confidence", "subjectivity_confidence", "actorAR", "directorAR", "languageAR", "countryAR", "genreAR", "ratingAR", "productionAR", "distributionAR" ]]
+
+    training_data = training_data.fillna(value=0)
+    testing_data = testing_data.fillna(value=0)
+
+
+    # ### KNN with K = 5
+
+    # In[5]:
+
+
+    fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, knn_5_clf, "5 KNN", 'KNN-5 Confusion Matrix')
+
+
+
+    # ### KNN with K = 10
+
+    # In[6]:
+
+
+    fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, knn_10_clf, "10 KNN", 'KNN-10 Confusion Matrix')
+
+
+    # ### KNN with K = 20
+
+    # In[7]:
+
+
+    fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, knn_20_clf, "20 KNN", 'KNN-20 Confusion Matrix')
+
+
+    # ### KNN with K = 50
+
+    # In[8]:
+
+
+    fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, knn_50_clf, "50 KNN", 'KNN-50 Confusion Matrix')
+
+
+    # ### Linear SVM
+
+    # In[9]:
+
+
+    fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, svm_clf, "Linear SVM", 'Linear SVM Confusion Matrix')
+
+
+    # ### Random Forest
+
+    # In[52]:
+
+
+    fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, rf_clf, "Random Forest", 'Random Forest Confusion Matrix')
+
+
+    # # Predictions Without Our Features
+
+    # In[11]:
+
+
+    training_data_common_feaures = training_data[["min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "Production Budget"]]
+    testing_data_common_features = testing_data[["min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "Production Budget"]]
+
+
+    # In[12]:
+
+
+    fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, knn_5_clf, "KNN Common Features", 'KNN w/ Common Features Confusion Matrix')
+
+
+    # In[13]:
+
+
+    fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, svm_clf, "Linear SVM Common Features", 'Linear SVM w/ Common Features Confusion Matrix')
 
