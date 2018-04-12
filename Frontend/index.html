@@ -1,0 +1,387 @@
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+		  <title>Money Movies</title>
+		  <meta charset="utf-8">
+		  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+		  <script src="js/popper.min.js" type="text/javascript"></script>
+
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		  <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
+		  
+		  <!-- Latest compiled and minified CSS -->
+
+		  <!-- Optional theme -->
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+		  <!-- Latest compiled and minified JavaScript -->
+		  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+
+		  <link rel="stylesheet" href="css/awesomplete.css" />
+
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		  <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+
+
+			<script src="js/awesomplete.js" async></script>
+
+		<style>
+		.form-group {
+			/*width: 25%;*/
+		}
+		.awesomplete {
+			display: block;
+		}
+		</style>
+		</head>
+		<body>
+		<!-- need to have: ML Models, Visualizations (scatter plots x4, actor relationship graph, choropleth, time bar), "custom" movie form,  -->
+		<!-- color code by "type" i.e. ML models all one color -->
+		<div class="container">
+		  <h2>Money Movies</h2>
+
+		  <ul class="nav nav-tabs">
+		    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+		    <li><a data-toggle="tab" href="#menu1">OLS</a></li>
+		    <li><a data-toggle="tab" href="#menu2">KNN</a></li>
+		    <li><a data-toggle="tab" href="#menu3">SVM</a></li>
+		    <li><a data-toggle="tab" href="#menu4">Custom Movie</a></li>
+		    <li><a data-toggle="tab" href="#menu5">Scatter Plots</a></li>
+		    <li><a data-toggle="tab" href="#menu6">Actor Graph</a></li>
+		    <li><a data-toggle="tab" href="#menu7">Choropleth</a></li>
+		    <li><a data-toggle="tab" href="#menu8">Time Bar</a></li>
+<!-- 		    <li><a data-toggle="tab" href="#menu9">SVM Model</a></li>
+ -->		  </ul>
+
+		  <div class="tab-content">
+		    <div id="home" class="tab-pane fade in active">
+		      <h3>Predicting Movie Revenue</h3>
+
+				<p>Currently, ML models are used to predict revenue. Shortcomings include limits on data types and size. We will incorporate novel ideas such as sentiment from new sources - Youtube like/dislike ratio for movie trailers and Google Trends data to identify geographic patterns in historical movie interest. We will also look at how successful actors, directors, etc. have been in the past and use their average revenue-added per movie to predict how those same actors will perform in future movies. These generated data points will augment the common movie data available on the internet. Furthermore, we will visualize the relationship between actors in a graph to indicate success-by-association - actors more closely linked to successful actors will be assumed to be more successful.</p>
+				<h4>Innovations</h4>
+				<ul>
+				<li>New sentiment sources: Youtube likes and dislikes, Google Trends interest by country which others have not used.</li>
+				<li>Historical value added for actors, directors, languages available to view the movie, country movie was produced in, genre, and rating. This value is calculated from how profitable movies with these features were during the training period.</li>
+				<li>Sentiment analysis on the plot blurb released by production studios for polarity, subjectivity, and confidence - different from the usual sentiment performed on blogs or Twitter</li>
+				<li>Choropleth map of worldwide interest in movies by genre, and using genre interest to determine if movies of that genre will be successful in that region</li>
+				</ul>
+				<h4>Description of Approaches</h4>
+				<p>We will use linear regression to predict domestic box office gross using the following features: budget, movie rating, runtime, pre-screen critic ratings, month and year of release, Youtube likes/dislikes, plot description sentiment, and average revenue added for each actor, director, language, genre, rating, production company, and distribution company within the training period. We will also use SVM and KNN, on the same features, to categorize whether an upcoming movie will be profitable. Our user interface will be a web-based GUI built on D3, to display all visualizations in one place. We will have an actor social graph showing association between actors based on average revenue added, a time-bar visualization showing the relationship between release date and revenue, a tree map with a dropdown to quickly visualize the common and generated features we use in our prediction models, and a world map visualization of with what relative frequency people search for movies by genre and the country the movie was produced in.</p>
+				<h4>Experiments</h4>
+				<p>We will use data from 2005-2018, selecting the “top” movies according to IMDb for each year, and removing rows for which there is insufficient data. Data gathered from IMDb, MetaCritic, Youtube, AYLien sentiment, Box Office Mojo, and Google Trends. </p>
+
+				<p>Our regression experiment predicts the raw domestic gross that a movie will yield during an average 6-week run in box offices based on data that would be available about 1-week in advance of the first screening (pre-screen critic reviews, budget, and Youtube trailer like/dislike ratio). We will use SVM and KNN to predict whether a movie will outperform its budget. For the test data, we will simulate being blind to any future metrics such as user reviews or profit. </p>
+
+				<h4>Evaluation</h4>
+				<p>We expect to be able to predict earned box office revenue within ten percent of the actual results. We want to be able to predict movie profitability better with our additional generated features than with what we refer to as “common” data (features such as budget, release date, etc. which can simply be found on the web). </p>
+
+		      
+		    </div>
+
+		    <div id="menu1" class="tab-pane fade">
+		      <h3>Linear Regression (OLS) Model</h3>
+		      <p>Linear Regression with Ordinary Least Squares</p>
+		    </div>
+
+		    <div id="menu2" class="tab-pane fade">
+		      <h3>K-Nearest Neighbor</h3>
+		      <p>K Nearest Neighbor</p>
+		    </div>
+
+		    <div id="menu3" class="tab-pane fade">
+		      <h3>Support Vector Machine</h3>
+		      <p>Support Vector Machine</p>
+		    </div>
+
+		    <div id="menu4" class="tab-pane fade">
+		      <h3>Custom Features (subset)</h3>	
+		      <form>
+		      	<div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Rating</label>
+				    <input type="text" class="form-control" id="inputRating" aria-describedby="emailHelp" placeholder="PG, PG-13, R, NC-17">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to PG-13</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Runtime (min)</label>
+				    <input type="text" class="form-control" id="inputRuntime" aria-describedby="emailHelp" placeholder="Enter runtime">
+				    <!-- <small id="emailHelp" class="form-text text-muted">Defaults to median value of training data (100)<data></data>)</small> -->
+				  </div>
+			  </div>
+			  <div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="genreBox">Genre</label>
+				    <input type="text" class="form-control" id="inputGenre" aria-describedby="emailHelp" placeholder="Comedy, Drama, Thriller, etc...">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to Comedy</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Critic Rating</label>
+				    <input type="text" class="form-control" id="inputCritic" aria-describedby="emailHelp" placeholder="0-100">
+				    <!-- <small id="emailHelp" class="form-text text-muted">Defaults to 5<data></data>)</small> -->
+				  </div>
+			  </div>
+			  <div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Year Released</label>
+				    <input type="text" class="form-control" id="inputYear" aria-describedby="emailHelp" placeholder="2005-2012">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to 50</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Month Released</label>
+				    <input type="text" class="form-control" id="inputMonth" aria-describedby="emailHelp" placeholder="1-12">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to median value of training data (100)	<data></data>)</small>
+ -->				  </div>
+			  </div>
+			  <div class="row">
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">Production Budget</label>
+				    <input type="text" class="form-control" id="inputBudget" aria-describedby="emailHelp" placeholder="0-500000000">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to 50</small>
+ -->				  </div>
+			      <div class="col-xs-6 form-group">
+				    <label for="exampleInputEmail1">YouTube Likes (of trailer)</label>
+				    <input type="text" class="form-control" id="inputYoutube" aria-describedby="emailHelp" placeholder="0-50000">
+<!-- 				    <small id="emailHelp" class="form-text text-muted">Defaults to median value of training data (100)	<data></data>)</small>
+ -->				  </div>
+			  </div>
+			   <div class="row">
+			      <div class="col-xs-12 form-group">
+				    <label for="exampleInputEmail1">Plot</label>
+				    <textarea class="form-control" rows="5" id="inputPlot" plaecholder="Any plot description"></textarea>
+
+  				    <small id="emailHelp" class="form-text text-muted">Sent to AYLIEN sentiment analysis</small>
+ 				  </div>
+ 				</div>
+			      
+			 <div class="btn-group">
+			  <button type="button" id="ols-button" class="btn btn-default">Lin Reg (OLS)</button>
+			  <button type="button" id="svm-button" class="btn btn-default">SVM</button>
+
+			  <div class="btn-group">
+			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			      KNN
+			      <span class="caret"></span>
+			    </button>
+			    <ul class="dropdown-menu">
+			      <li><a id="5nn-button" href="#">5NN</a></li>
+			      <li><a id="10nn-button" href="#">10NN</a></li>
+			      <li><a id="20nn-button" href="#">20NN</a></li>
+			      <li><a id="50nn-button" href="#">50NN</a></li>
+			    </ul>
+			  </div>
+			 </div>
+			 
+			 </form>
+
+		    </div>
+
+		    <div id="menu5" class="tab-pane fade">
+		      <h3>Scatter Plots</h3>
+		      <p>Scatter Plots</p>
+		    </div>
+
+		    <div id="menu6" class="tab-pane fade">
+		      <h3>Actor Graph</h3>
+		      <p>Actor Graph</p>
+		    </div>
+
+		    <div id="menu7" class="tab-pane fade">
+		      <h3>Choropleth</h3>
+		      <p>Choropleth</p>
+		    </div>
+
+		    <div id="menu8" class="tab-pane fade">
+		      <h3>Time Bar Chart</h3>
+		      <p>Time Bar Chart</p>
+		    </div>
+
+		   <!--  <div id="menu9" class="tab-pane fade">
+		      <h3>Menu 3</h3>
+		      <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+		    </div> -->
+
+		  </div>
+		</div>
+
+		</body>
+		<script>
+
+		genreDict = {
+			"Sci-Fi": 7103249,
+			"Crime": 2422306,
+			"Romance": 10769463,
+			"Animation": 1877737,
+			"Music": 14091202,
+			"Comedy": 11237616,
+			"War": -2611214,
+			"Horror": 18267440,
+			"Western": 13823376,
+			"Thriller": 10871198,
+			"Adventure": 9177757,
+			"Mystery": 1309341,
+			"Short": -8026285,
+			"Drama": 5919330,
+			"Action": 5122789,
+			"Documentary": 6371952,
+			"Musical": 9578002,
+			"History": 1323353,
+			"Family": 18374461,
+			"Fantasy": -381598,
+			"Sport": 12280860,
+			"Biography": 5011643
+		}
+
+		ratingDict = {
+			"G": 18385330,
+			"NC-17": -5851569,
+			"PG-13": 9899276,
+			"R": 8133748,
+			"PG": 12706625 
+		}
+
+			var inputGenre = document.getElementById("inputGenre");
+
+			new Awesomplete(inputGenre, {
+				list: [
+					"Sci-Fi",
+					"Crime",
+					"Romance",
+					"Animation",
+					"Music",
+					"Comedy",
+					"War",
+					"Horror",
+					"Western",
+					"Thriller",
+					"Adventure",
+					"Mystery",
+					"Short",
+					"Drama",
+					"Action",
+					"Documentary",
+					"Musical",
+					"History",
+					"Family",
+					"Fantasy",
+					"Sport",
+					"Biography"
+				], filter: function (text, input) { //accept regex entry
+					var regex = new RegExp(input, 'i')
+					if (text.match(regex)) {
+						return true
+					} else {
+						return false;
+					}
+				}
+			});
+
+			var inputRating = document.getElementById("inputRating");
+
+			// Show label but insert value into the input:
+			new Awesomplete(inputRating, {
+				list: [
+					"G",
+					"NC-17",
+					"PG-13",
+					"R",
+					"PG"
+					
+				], filter: function (text, input) { //accept regex entry
+					var regex = new RegExp(input, 'i')
+					if (text.match(regex)) {
+						return true
+					} else {
+						return false;
+					}
+				}
+			});
+
+			
+
+			$('#ols-button, #svm-button, #5nn-button, #10nn-button, #20nn-button, #50nn-button').on('click', function(d) {
+				modelButtonClicked(d.target.id) 
+			})
+
+			function modelButtonClicked(b) {
+				data = {}
+				thisRating = $("#inputRating").val();
+				if (thisRating in ratingDict) {
+					data.rating = ratingDict[thisRating]
+				} else {
+					data.rating = 0
+				}
+				data.runtime = $("#inputRuntime").val();
+				thisGenre = $("#inputGenre").val();
+				if (thisGenre in genreDict) {
+					data.genre = genreDict[thisGenre]
+				} else {
+					data.genre = 0
+				}
+				data.critic = $("#inputCritic").val();
+				data.year = $("#inputYear").val();
+				data.month = $("#inputMonth").val();
+				data.budget = $("#inputBudget").val();
+				data.youtube = $("#inputYoutube").val();
+				data.plot = $("#inputPlot").val();
+				console.log(data)
+
+				path = "/"
+
+				switch(b) {
+					case "ols-button":
+						console.log("ols-button clicked")
+						path += "ols"
+						break;
+					case "svm-button":
+						console.log("svm-button clicked")
+						path += "svm"
+						break;
+					case "5nn-button":
+						console.log("5nn-button clicked")
+						path += "knn/5"
+						break;
+					case "10nn-button":
+						console.log("10nn-button clicked")
+						path += "knn/10"
+						break;
+					case "20nn-button":
+						console.log("20nn-button clicked")
+						path += "knn/20"
+						break;
+					case "50nn-button":
+						console.log("50nn-button clicked")
+						path += "knn/50"
+						break;
+					default:
+						console.log("other")
+				}
+
+				$.ajax({
+					type : 'GET',
+					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+					url : '/ourURL' + path,
+					data: data,
+					success : function(response) {
+					    console.log(response);
+						console.log('model called successfully');
+						//display popup with results
+						// window.location.replace("/");
+					},
+					error: function(error){
+						console.log(error);
+					}
+				});
+			}
+
+
+		</script>
+		
+		</html>

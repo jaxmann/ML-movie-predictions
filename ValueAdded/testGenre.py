@@ -206,7 +206,20 @@ for movieName, row in fd.iterrows():
     else:
         fd.at[movieName,'distributionAR'] = distributionDict[distribution]
 
-
+# genreSet = set()
+# for movieName, row in fd.iterrows():
+#
+#     genreArr = row['genres'].split(";");
+#     for genre in genreArr:
+#         genre = genre.strip()
+#
+#
+#         if genre not in genreDict:
+#             pass
+#         else:
+#             print(genre, fd.at[movieName, 'genreAR'])
+            # fd.at[movieName, 'genreAR'] += genreDict[genre]
+print(ratingDict)
 
 # writing into TRAIN set
 fdTest['actorAR'] = 0
@@ -289,8 +302,8 @@ for movieName, row in fdTest.iterrows():
 # print(fd.at['This Means War','genreAR'])
 
 print('it might have worked')
-fd.to_csv('outTrain.tsv', sep='\t', encoding='utf-8')
-fdTest.to_csv('outTest.tsv', sep='\t', encoding='utf-8')
+# fd.to_csv('outTrain.tsv', sep='\t', encoding='utf-8')
+# fdTest.to_csv('outTest.tsv', sep='\t', encoding='utf-8')
 
 
 
