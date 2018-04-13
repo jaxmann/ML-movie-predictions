@@ -1,5 +1,7 @@
 import os
 from flask import Flask, render_template, request, json
+from sklearn.externals import joblib
+
 
 # set the template directory to the Frontend folder
 template_dir = os.path.abspath('../Frontend/')
@@ -62,4 +64,11 @@ def getSVMPrediction():
                        'plot': plot})
 
 if __name__ == "__main__":
+    # Load the classifiers & regressor
+    knn_5_clf = joblib.load("../Models/5 KNN.pkl")
+    knn_10_clf = joblib.load("../Models/10 KNN.pkl")
+    knn_20_clf = joblib.load("../Models/20 KNN.pkl")
+    knn_50_clf = joblib.load("../Models/50 KNN.pkl")
+    lin_svm_clf = joblib.load("../Models/Linear SVM.pkl")
+    lin_reg = joblib.load("../Models/LinearRegression.pkl")
     app.run()
