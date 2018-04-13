@@ -1,0 +1,28 @@
+var movies = ["The 40-Year-Old Virgin"];
+
+var i;
+var googleTrendsApi = require("google-trends-api")
+var Promise = require("bluebird")
+
+Promise.map(movies, function(obj) {
+    return googleTrendsApi.interestByRegion({
+        keyword: obj,  
+        resolution: 'COUNTRY'})
+        .then(function(results) {
+            return results;
+        });
+    }).then(function(results) {
+        console.log(results);
+        download(results, movies[i], 'text/plain');
+        i = i + 1;
+    }, function(err) {
+        console.log(err);
+});
+
+function download(items, name, type) {
+    console.log("made it to download");
+    a=document.createElement('a');
+    a.download=data.json;
+    a.href="data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(obj));
+    a.click();
+}

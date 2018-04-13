@@ -1,0 +1,18 @@
+var googleTrendsApi = require("google-trends-api")
+
+googleTrendsApi.interestByRegion({keyword: 'Black Panther', startTime: new Date('2018-01-01'), endTime: new Date('2018-02-01'), resolution: 'COUNTRY'})
+.then(function(results){
+  console.log('Black Panther', results);
+})
+.catch(function(err){
+  console.error('Oh no there was an error', err);
+});
+
+for (i = 0; i < 50; i++) { 
+    googleTrendsApi.interestByRegion({keyword: "The Hitchhiker's Guide to the Galaxy", startTime: new Date('2018-01-01'), endTime: new Date('2018-02-01'), resolution: 'COUNTRY'}, function(err, results) {
+    if (err) {
+        console.error(movies[i], err);
+    } else {
+      console.log(movies[i], results);
+    }})
+}
