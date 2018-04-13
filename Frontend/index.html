@@ -311,6 +311,9 @@
 			})
 
 			function modelButtonClicked(b) {
+
+				ourURL = "localhost:5000"
+
 				data = {}
 				thisRating = $("#inputRating").val();
 				if (thisRating in ratingDict) {
@@ -367,7 +370,7 @@
 				$.ajax({
 					type : 'GET',
 					contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-					url : '/ourURL' + path,
+					url : ourURL + path,
 					data: data,
 					success : function(response) {
 					    console.log(response);
