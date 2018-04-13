@@ -1,8 +1,10 @@
 import os
 from flask import Flask, render_template, request, json
+from flask_cors import CORS
 from sklearn.externals import joblib
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route('/ols', methods=['GET'])
@@ -49,6 +51,11 @@ def getSVMPrediction():
                        'budget': budget,
                        'youtube': youtube,
                        'plot': plot})
+
+
+@app.route('/hello', methods=['GET'])
+def hello():
+    return 'Hello'
 
 if __name__ == "__main__":
     # Load the classifiers & regressor
