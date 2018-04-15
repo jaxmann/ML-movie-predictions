@@ -4,8 +4,11 @@
 <head>
     <link rel="stylesheet" type="text/css" href="res/css/stylesheet.css" />
 
+    <script type="text/javascript" src="vend/d3.min.js"></script>
     <script type="text/javascript" src="vend/plotly-latest.min.js"></script>
-    <script type="text/javascript" src="vend/d3plus.full.min.js"></script>
+    <script src="https://d3plus.org/js/d3plus-hierarchy.v0.6.full.min.js"></script>
+    <script src="https://d3plus.org/js/d3.js"></script>
+    <script src="https://d3plus.org/js/d3plus.js"></script>
 
     <meta charset="utf-8" />
     <title>Movie Predictions</title>
@@ -14,6 +17,7 @@
 <body>
     <div id="graph"></div>
     <div id="graph2"></div>
+    <div id="treemap"></div>
 
     <script>
         var dataURL = "res/fullData-cleaner.csv";
@@ -85,6 +89,7 @@
     </script>
 
     <script>
+        /*
         var dataURL = "res/fullData-cleaner.csv";
         var xField = "releaseDate";
         var yField = "domesticTotalGross";
@@ -204,6 +209,44 @@
                 frames: frames,
             });
         });
+        */
+    </script>
+
+    <script>
+        var dataURL = "res/fullData-cleaner.csv";
+
+        Plotly.d3.csv(dataURL, function(err, rawData) {
+            if (err) throw err;
+
+            var data = prepData(rawData);
+            console.log(data)
+
+            var visualization = d3plus.viz()
+                .container("#treemap")
+                .data(data)                 // Change to data
+                .type("tree_map")
+                .id(["rating", "title"])     // Put in order of grouping
+                .size("revenue")              // Affects size of box
+                .color({
+                    "domain": [0, 100],
+                    "range": ["red", "black", "green"],
+                    "value": "score"       // Affects color of box
+                })
+                .labels({"align": "left", "valign": "top"})
+                .draw()
+        });
+
+        function prepData(rawData) {
+            var clean = [];
+
+            rawData.forEach(function(datum, i) {
+                if (datum["yearReleased"] == 2017) {
+                    clean.push({"revenue": parseInt(datum["domesticTotalGross"]), "title": datum["title"], "rating": datum["rated"], "score": parseInt(datum["metacriticRating"])})
+                }
+            });
+
+            return clean;
+        }
 
     </script>
 </body>
