@@ -11,7 +11,7 @@ var margin = {top: 100, right: 90, bottom: 30, left: 50};
 	
 // Colors from http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=9
 var colors = ["#fff7ec", "#fee8c8", "#fdd49e", "#fdbb84", "#fc8d59", "#ef6548", "#d7301f", "#b30000", "#7f0000"];
-var search_range = [0, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9, 1];
+var search_range = [0, 10, 20, 30, 50, 70, 90, 100];
 
 // Set up the map
 var svg = d3.select("body")
@@ -44,16 +44,15 @@ var tooltip = d3.tip()
 	});
 		
 svg.call(tooltip);
-svg.select('#inds')
-	.on("change", function () {
-		var sect = document.getElementById("inds");
-		var select_movie = sect.options[sect.selectedIndex].value;
-		console.log(select_movie);
-		update(select_movie);
-	});
+
+function onChange() {
+	var sect = document.getElementById("inds");
+	var select_movie = sect.options[sect.selectedIndex].value;
+	update(select_movie);
+}
 
 //Defer until we have read all the files
-queue.defer(d3.csv, "google_movies.csv")
+queue.defer(d3.csv, "movies.csv")
 	.defer(d3.json, "world_countries.json")
 	.await(main);
 
@@ -67,9 +66,10 @@ function main(error, search_data, countries_data) {
 	countries = countries_data;
 	search = search_data;
 	update("Aliens of the Deep");
+	
 }
 
-function update(movie_name) {	
+function update(movie_name) {
 	// Find the row corresponding to the selected movie
 	var movie = {};
 	var movies = [];
@@ -80,7 +80,6 @@ function update(movie_name) {
 		}
 		movies.push(d.Name);
 	});
-	console.log(movies);
 	
 	for (var i = 0; i<= movies.length; i++){
 		var opt = document.createElement('option');
@@ -89,12 +88,12 @@ function update(movie_name) {
 		document.getElementById('inds').appendChild(opt);
 	}
 	
+	var values = {};
 	// Put the search result in each country feature
 	countries.features.forEach(function(d) {
-		//console.log(d.properties.name);
-		//console.log(d.properties.name, movie[d.properties.name]);
-		d.search = movie[d.properties.name];
+		values[d.properties.name] = movie[d.properties.name];
 	});
+	console.log(values);
 	
 	// The x scale
 	var x = d3.scale.linear()
@@ -111,13 +110,15 @@ function update(movie_name) {
 		.attr("transform", "translate(0,40)");
 	
 	// draw the map
+	svg.selectAll("path").remove();
 	svg.selectAll("path")
 		.data(countries.features)
 		.enter()
 		.append("path")
 		.attr("d", path)
 		.style("fill", function(d) {
-			return color(d.search);
+			console.log(d.properties.name, values[d.properties.name]);
+			return color(values[d.properties.name]);
 		})
 		.style("stroke", "grey")
 		// tooltips
@@ -134,10 +135,10 @@ function update(movie_name) {
 
           d3.select(this)
             .style("opacity", 1)
-            .style("stroke","white")
+            .style("stroke","black")
             .style("stroke-width",0.3);
         });
-		
+	
 	// Make the legend rectangles
 	 var legend = g.selectAll("rect")
 		.data(search_range)

@@ -1,0 +1,15 @@
+United States -> USA
+GBR -> England
+CZE -> Czech Republic
+FLK -> Falkland Islands
+MMR -> Myanmar
+WS -> Western Sahara
+TZA -> United Republic of Tanzania
+COD -> Democratic Republic of the Congo
+COG -> Republic of the Congo
+CIV -> Ivory Coast
+GNB -> Guinea Bissau
+BIH -> Bosnia and Herzegovina
+SRB -> Republic of Serbia
+MKD -> Macedonia
+GIN -> Guinea

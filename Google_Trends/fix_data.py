@@ -6,6 +6,6 @@ new = data.ix[:, 2::2]
 
 countries = data.ix[1, 1::2]
 
-data.to_csv('countries.csv', sep = ",")
+new.to_csv('newmovies.csv', sep = ",")
 
-countries.to_csv('newmovies.csv', sep = ",")
+countries.to_csv('countries.csv', sep = ",")
