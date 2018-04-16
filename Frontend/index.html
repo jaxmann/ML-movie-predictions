@@ -32,6 +32,17 @@
 
 
 			<script src="js/awesomplete.js" type="text/javascript"></script>
+			<script type="text/javascript" src="d3.v3.min.js"></script>
+			<script type="text/javascript" src="d3-queue.v3.min.js"></script>
+			<script type="text/javascript" src="topojson.v1.min.js"></script>
+			<script type="text/javascript" src="d3.tip.v0.6.3.js"></script>
+			<style>
+				#inds{
+					position:absolute;
+					top:160px;
+					left:10px;
+				}
+			</style>
 
 		<style>
 		.form-group {
@@ -195,7 +206,11 @@
 
 		    <div id="menu7" class="tab-pane fade">
 		      <h3>Choropleth</h3>
-		      <p>Choropleth</p>
+		      <select id="inds" onchange="onChange()">
+				<option value="None" selected="selected">None</option>
+			  </select>
+			  <div id="google_trends"></div>
+			  <script src="map.js"></script>
 		    </div>
 
 		    <div id="menu8" class="tab-pane fade">
