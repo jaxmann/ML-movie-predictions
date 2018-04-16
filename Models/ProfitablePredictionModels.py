@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[48]:
+# In[1]:
 
 
 import numpy as np
@@ -13,6 +13,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 from sklearn import preprocessing
+from sklearn.externals import joblib
 
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
@@ -87,17 +88,40 @@ def fit_test_and_plot(X_train, X_test, Y_train, Y_test, model, model_name, title
     class_names = [0, 1]
     plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True, title=title)
     plt.show()
+    
+    file_name = model_name + ".pkl"
+    joblib.dump(model, file_name)
 
 
 # In[2]:
 
-if __name__=='__main__':
+if __name__ == '__main__':
+    
     training_data = pd.read_csv("../Data/outTrain.tsv", sep="\t")
     testing_data = pd.read_csv("../Data/outTest.tsv", sep="\t")
 
     training_profit = training_data["Domestic Total Gross"] - training_data["Production Budget"]
     testing_profit = testing_data["Domestic Total Gross"] - testing_data["Production Budget"]
-    # profit
+
+    # Regression Stuff:
+    # regression_training_features = training_data[["Production Budget", "actorAR", "directorAR", "productionAR", "distributionAR"]]
+    # regression_testing_features = testing_data[["Production Budget", "actorAR", "directorAR", "productionAR", "distributionAR"]]
+
+    regression_training_features = training_data[["Production Budget", "ratingAR", "runtime(min)", "genreAR", "metacriticRating", "year", "MonthReleased", "likeCount"]]
+    regression_testing_features = testing_data[["Production Budget", "ratingAR", "runtime(min)", "genreAR", "metacriticRating", "year", "MonthReleased", "likeCount"]]
+    regression_training_features = regression_training_features.fillna(1)
+    regression_testing_features = regression_testing_features.fillna(1)
+
+    regression_training_features = regression_training_features.as_matrix().astype(np.float)
+    regression_testing_features = regression_testing_features.as_matrix().astype(np.float)
+
+    # print regression_training_features
+    # print np.any(np.isnan(regression_training_features))
+    # print np.any(np.all(np.isfinite(regression_training_features)))
+
+
+    regression_training_results = training_data[["Domestic Total Gross"]]
+    regression_testing_results = testing_data[["Domestic Total Gross"]]
 
 
     # In[3]:
@@ -111,6 +135,9 @@ if __name__=='__main__':
 
 
     # ## Predictions With All Numeric Features
+    # 
+    # rating, runtime, genre, critic, year, month, budget, youtube, plot
+    # 
 
     # In[4]:
 
@@ -120,6 +147,11 @@ if __name__=='__main__':
 
     training_data = training_data.fillna(value=0)
     testing_data = testing_data.fillna(value=0)
+
+    features_not_given = training_data[["metacriticRating", "viewCount", "commentCount", "dislikeCount", "polarity_confidence", "subjectivity_confidence", "actorAR", "directorAR", "languageAR", "countryAR", "productionAR", "distributionAR"]]
+    avg_of_feats_not_given = features_not_given.mean()
+    # avg_of_feats_not_given
+    joblib.dump(avg_of_feats_not_given, "features_avgs.pkl")
 
 
     # ### KNN with K = 5
@@ -165,7 +197,7 @@ if __name__=='__main__':
 
     # ### Random Forest
 
-    # In[52]:
+    # In[10]:
 
 
     fit_test_and_plot(training_data, testing_data, training_labels, testing_labels, rf_clf, "Random Forest", 'Random Forest Confusion Matrix')
@@ -180,14 +212,64 @@ if __name__=='__main__':
     testing_data_common_features = testing_data[["min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "Production Budget"]]
 
 
-    # In[12]:
+    # In[16]:
 
 
-    fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, knn_5_clf, "KNN Common Features", 'KNN w/ Common Features Confusion Matrix')
+    fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, knn_5_clf, "KNN Common Features", '5 KNN w/ Common Features Confusion Matrix')
+
+
+    # In[17]:
+
+
+    fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, knn_10_clf, "KNN Common Features", '10 KNN w/ Common Features Confusion Matrix')
+
+
+    # In[18]:
+
+
+    fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, knn_20_clf, "KNN Common Features", '20 KNN w/ Common Features Confusion Matrix')
+
+
+    # In[19]:
+
+
+    fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, knn_50_clf, "KNN Common Features", '50 KNN w/ Common Features Confusion Matrix')
 
 
     # In[13]:
 
 
     fit_test_and_plot(training_data_common_feaures, testing_data_common_features, training_labels, testing_labels, svm_clf, "Linear SVM Common Features", 'Linear SVM w/ Common Features Confusion Matrix')
+
+
+    # ### Linear Regression
+    # #-produciton budget, actorAR, directorAR, productionAR, distributionAR; calculate R-squared
+
+    # In[14]:
+
+
+    from sklearn.linear_model import LinearRegression
+    from sklearn.metrics import r2_score
+    from sklearn.metrics import mean_squared_error
+
+    lin_reg = LinearRegression()
+    lin_reg.fit(regression_training_features, regression_training_results)
+
+    training_set_predictions = lin_reg.predict(regression_training_features)
+    testing_set_predictions = lin_reg.predict(regression_testing_features)
+
+    training_r2_score = r2_score(regression_training_results, training_set_predictions)
+    testing_r2_score = r2_score(regression_testing_results, testing_set_predictions)
+
+    training_mse = mean_squared_error(regression_training_results, training_set_predictions)
+    testing_mse = mean_squared_error(regression_testing_results, testing_set_predictions)
+
+    print "Training set r^2 score: " + str(training_r2_score)
+    print "Testing set r^2 score: " + str(testing_r2_score)
+    print
+    print "Training set mean squared error: " + str(training_mse)
+    print "Testing set mean squared error: " + str(testing_mse)
+
+    joblib.dump(lin_reg, "LinearRegression.pkl")
+
 

@@ -100,8 +100,37 @@
 		    </div>
 
 		    <div id="menu2" class="tab-pane fade">
-		      <h3>K-Nearest Neighbor</h3>
-		      <p>K Nearest Neighbor</p>
+		      <h3>K-Nearest Neighbors</h3>
+		      <p>Our intuition with using a KNN model to predict profitability was that movies with similar features would perform similarly. To see the difference our generated features have on classifiying a movie as profitable or not, below are the confusion matricies for various KNN models using common features (i.e. "min_age", "runtime(min)", "metacriticRating", "YearReleased", "MonthReleased", "Production Budget"):</p>
+
+		      <table border=1>
+				<tr>
+				<td>
+				<img src="../Models/5KNNcommon.png" width="24%"/>
+				<img src="../Models/10KNNcommon.png"  width="24%"/>
+				<img src="../Models/20KNNcommon.png" width="24%"/>
+				<img src="../Models/50KNNcommon.png" width="24%"/>
+				</td>
+				</tr>
+			  </table>
+				
+			  <p>These confusion matricies may be a little confusing, so allow us to explain: the vertical axis tells us whether the movie was actually profitable or not (1 or 0 respectively), while the horizontal axis tells us what the classifier predicted. For the KNN models using common features where K = 10, K = 20, and K = 50, the model would just always predict that the movie was not profitable, which obviously is not always the case. This basically means that the classifier is bad. Only with the K = 5 model on the far left were there any predictions of profitability, but it only got 14% of them correct. The ideal confusion matrix would have 1.0 in the top left corner and bottom right corner. Achieving the ideal is an extremely hard task to do with testing data (i.e. data not used to train the classifier).</p>
+
+			  <p>In order to improve the classification results, we generated new features and appended them to the common features. With our new approach, we got the following confusion matricies: </p>
+
+			  <table border=1>
+				<tr>
+				<td>
+				<img src="../Models/5KNN.png" width="24%"/>
+				<img src="../Models/10KNN.png" width="24%"/>
+				<img src="../Models/20KNN.png" width="24%"/>
+				<img src="../Models/50KNN.png" width="24%"/>
+				</td>
+				</tr>
+			  </table>
+
+			  <p>The matricies above show a notable improvement in being able to predict profitability. Even though our accuracy isn't super high, we showed that our features do indeed provide more information that allows the classifiers to safely classify things and both profitable and not-profitable. The best classifier in our opinion sets k = 50, which accurately predicted 69% of non-profitable movies and 53% of profitable movies (shown on the far right).</p>
+
 		    </div>
 
 		    <div id="menu3" class="tab-pane fade">
