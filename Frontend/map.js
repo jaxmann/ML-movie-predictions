@@ -36,15 +36,6 @@ var projection = d3.geo.mercator()
 
 var path = d3.geo.path().projection(projection);
 
-// Tooltip
-var tooltip = d3.tip()
-	.offset([-10, 0])
-	.html(function(d) {
-		return "<strong>Country: </strong>" + d.id;
-	});
-		
-svg.call(tooltip);
-
 function onChange() {
 	var sect = document.getElementById("inds");
 	var select_movie = sect.options[sect.selectedIndex].value;
@@ -94,6 +85,15 @@ function update(movie_name) {
 		values[d.properties.name] = movie[d.properties.name];
 	});
 	console.log(values);
+	
+	// Tooltip
+	var tooltip = d3.tip()
+		.offset([-10, 0])
+		.html(function(d) {
+			return "<strong>Country: </strong>" + d.id + "<br></br><strong>Google Trends: </strong>" + values[d.properties.name];
+		});
+			
+	svg.call(tooltip);
 	
 	// The x scale
 	var x = d3.scale.linear()
