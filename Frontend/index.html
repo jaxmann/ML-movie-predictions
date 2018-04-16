@@ -36,20 +36,17 @@
 			<script type="text/javascript" src="d3-queue.v3.min.js"></script>
 			<script type="text/javascript" src="topojson.v1.min.js"></script>
 			<script type="text/javascript" src="d3.tip.v0.6.3.js"></script>
-			<style>
-				#inds{
-					position:absolute;
-					top:160px;
-					left:10px;
-				}
-			</style>
-
 		<style>
 		.form-group {
 			/*width: 25%;*/
 		}
 		.awesomplete {
 			display: block;
+		}
+		#inds{
+			position:absolute;
+			top:160px;
+			left:10px;
 		}
 		</style>
 		</head>
@@ -210,6 +207,10 @@
 				<option value="None" selected="selected">None</option>
 			  </select>
 			  <div id="google_trends"></div>
+			  <p>Google trends has an API that allowed us to query the relative frequency of searches for a movie by country.
+			  Every movie has a country with a value of 100, which is the country with the highest relative frequency,
+			  and all the other values are relative to this country. The frequency does take into account population size,
+			  so it is about the percentage of people who search for the movie on google.</p>
 			  <script src="map.js"></script>
 		    </div>
 
@@ -350,6 +351,7 @@
 				data.youtube = $("#inputYoutube").val();
 				data.plot = $("#inputPlot").val();
 				console.log(data)
+				data.sentiment_value = sentiment(data.plot);
 
 				path = "/"
 
@@ -401,7 +403,22 @@
 				});
 			}
 
-
+		function sentiment(plot) {
+			var AYLIENTextAPI = require('aylien_textapi');
+			var textapi = new AYLIENTextAPI({
+			  application_id: "ebf48a90",
+			  application_key: "a361dcf16a15317234bc3df4cbd75f95"
+			});
+			
+			textapi.sentiment({
+				'text': plot.toString()
+			}, function(error, response) {
+			if (error != null) {
+				console.log(error);
+			} else {
+				return response;
+			}
+		}
 		</script>
 		
 		</html>
