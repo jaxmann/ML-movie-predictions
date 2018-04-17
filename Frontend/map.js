@@ -117,7 +117,7 @@ function update(movie_name) {
 		.append("path")
 		.attr("d", path)
 		.style("fill", function(d) {
-			console.log(d.properties.name, values[d.properties.name]);
+			// console.log(d.properties.name, values[d.properties.name]);
 			return color(values[d.properties.name]);
 		})
 		.style("stroke", "grey")
