@@ -374,10 +374,12 @@
 			});
 
 			
-
+			
 			$('#ols-button, #svm-button, #5nn-button, #10nn-button, #20nn-button, #50nn-button').on('click', function(d) {
-				modelButtonClicked(d.target.id) 
+				modelButtonClicked(d.target.id)
+
 			})
+			
 
 			function modelButtonClicked(b) {
 
@@ -404,34 +406,41 @@
 				data.youtube = $("#inputYoutube").val();
 				data.plot = $("#inputPlot").val();
 				console.log(data)
-				data.sentiment_value = sentiment(data.plot);
+				// data.sentiment_value = sentiment(data.plot);
 
 				path = "/"
+				modelType = 'OLS'
 
 				switch(b) {
 					case "ols-button":
 						console.log("ols-button clicked")
 						path += "ols"
+						modelType = 'OLS'
 						break;
 					case "svm-button":
 						console.log("svm-button clicked")
 						path += "svm"
+						modelType = 'SVM'
 						break;
 					case "5nn-button":
 						console.log("5nn-button clicked")
 						path += "knn/5"
+						modelType = '5NN'
 						break;
 					case "10nn-button":
 						console.log("10nn-button clicked")
 						path += "knn/10"
+						modelType = '10NN'
 						break;
 					case "20nn-button":
 						console.log("20nn-button clicked")
 						path += "knn/20"
+						modelType = '20NN'
 						break;
 					case "50nn-button":
 						console.log("50nn-button clicked")
 						path += "knn/50"
+						modelType = '50NN'
 						break;
 					default:
 						console.log("other")
@@ -446,7 +455,12 @@
 					    console.log(response);
 						console.log('model called successfully');
 						var obj = $.parseJSON(response);
-						window.alert(obj["prediction"]);
+						if (modelType == 'OLS') {
+							window.alert(modelType + " predicted revenue: " + obj["prediction"]);	
+						} else {
+							window.alert(modelType + " - profitable? " + obj["prediction"]);	
+						}
+						
 						//display popup with results
 						// window.location.replace("/");
 					},
@@ -456,23 +470,23 @@
 				});
 			}
 
-		function sentiment(plot) {
-			var AYLIENTextAPI = require('aylien_textapi');
-			var textapi = new AYLIENTextAPI({
-			  application_id: "ebf48a90",
-			  application_key: "a361dcf16a15317234bc3df4cbd75f95"
-			});
+		// function sentiment(plot) {
+		// 	var AYLIENTextAPI = require('aylien_textapi');
+		// 	var textapi = new AYLIENTextAPI({
+		// 	  application_id: "ebf48a90",
+		// 	  application_key: "a361dcf16a15317234bc3df4cbd75f95"
+		// 	});
 			
-			textapi.sentiment({
-				'text': plot.toString()
-			}, function(error, response) {
-			if (error != null) {
-				console.log(error);
-			} else {
-				return response;
-			}
-			})
-		}
+		// 	textapi.sentiment({
+		// 		'text': plot.toString()
+		// 	}, function(error, response) {
+		// 	if (error != null) {
+		// 		console.log(error);
+		// 	} else {
+		// 		return response;
+		// 	}
+		// 	})
+		// }
 		</script>
 		
 		</html>
