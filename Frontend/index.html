@@ -227,7 +227,7 @@
 			  <button type="button" id="svm-button" class="btn btn-default">SVM</button>
 
 			  <div class="btn-group">
-			    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+			    <button type="button"  class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 			      KNN
 			      <span class="caret"></span>
 			    </button>
@@ -242,11 +242,37 @@
 			 
 			 </form>
 
+			
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <!-- <span aria-hidden="true">&times;</span> -->
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <p id="modalContent">Content</p>
+			      </div>
+			      <div class="modal-footer">
+			        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			        <button type="button" class="btn btn-primary">Save changes</button> -->
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
 		    </div>
 
 		    <div id="menu5" class="tab-pane fade">
 		      <h3>Scatter Plots</h3>
 		      <p>Scatter Plots</p>
+
+
+
 		    </div>
 
 		    <div id="menu6" class="tab-pane fade">
@@ -455,10 +481,17 @@
 					    console.log(response);
 						console.log('model called successfully');
 						var obj = $.parseJSON(response);
+						$("#exampleModalCenter").modal()
+						$("#exampleModalLongTitle").text(modelType)
+						$("#exampleModalLongTitle").css("font-size","18px")
+						$("#exampleModalLongTitle").css("font-weight","bold")
+
 						if (modelType == 'OLS') {
-							window.alert(modelType + " predicted revenue: " + obj["prediction"]);	
+							$("#modalContent").text("Predicted revenue: " + obj["prediction"])
+							// window.alert(modelType + " predicted revenue: " + obj["prediction"]);	
 						} else {
-							window.alert(modelType + " - profitable? " + obj["prediction"]);	
+							$("#modalContent").text("Profitable? " + obj["prediction"])
+							// window.alert(modelType + " - profitable? " + obj["prediction"]);	
 						}
 						
 						//display popup with results
