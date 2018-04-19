@@ -85,23 +85,20 @@
 		    <div id="home" class="tab-pane fade in active">
 		      <h3>Predicting Movie Revenue</h3>
 
-				<p>Currently, ML models are used to predict revenue. Shortcomings include limits on data types and size. We will incorporate novel ideas such as sentiment from new sources - Youtube like/dislike ratio for movie trailers and Google Trends data to identify geographic patterns in historical movie interest. We will also look at how successful actors, directors, etc. have been in the past and use their average revenue-added per movie to predict how those same actors will perform in future movies. These generated data points will augment the common movie data available on the internet. Furthermore, we will visualize the relationship between actors in a graph to indicate success-by-association - actors more closely linked to successful actors will be assumed to be more successful.</p>
-				<h4>Innovations</h4>
+				<p>Currently, ML models are used to predict purely revenue and use limited descriptive statistics (see <a target="_blank" href="https://www.sciencedirect.com/science/article/pii/S095741740800496X">here</a>, <a target="_blank" href="https://www.sciencedirect.com/science/article/pii/S0957417413006866">here</a>, and <a target="_blank" href="https://s3.amazonaws.com/academia.edu.documents/36689032/vol3.no3.46.pdf?AWSAccessKeyId=AKIAIWOWYYGZ2Y53UL3A&Expires=1524173890&Signature=46YfXx%2BlWglSBqqcv%2FzcSfVjni4%3D&response-content-disposition=inline%3B%20filename%3DPrediction_of_Movie_Success_using_Sentim.pdf">here</a>) or <a target="_blank" href="https://ieeexplore.ieee.org/abstract/document/5286056/">simple sentiment</a> with few or no visualizations or interactivity. Our project hopes to incorporate novel ideas such as sentiment from new sources - Youtube like/dislike ratio for movie trailers and <a href="https://www.npmjs.com/package/google-trends-api" target="_blank">Google Trends</a> data to identify geographic patterns in historical movie interest. We will also look at how successful actors, directors, etc. have been in the past and use their average revenue-added per movie to predict how those same actors will perform in future movies. These generated data points will augment the common movie data available on the internet. Furthermore, we will visualize the relationship between actors in a graph to indicate success-by-association - actors more closely linked to successful actors will be assumed to be more successful. We also have visualizations to visualize model accuracy (confusion matrices), tree maps to visualize “market-share” of movie ratings and movies themselves, and visualizations to display how time-of-year impacts movie revenue. </p>
+				<h4>Demo Overview</h4>
 				<ul>
-				<li>New sentiment sources: Youtube likes and dislikes, Google Trends interest by country which others have not used.</li>
-				<li>Historical value added for actors, directors, languages available to view the movie, country movie was produced in, genre, and rating. This value is calculated from how profitable movies with these features were during the training period.</li>
-				<li>Sentiment analysis on the plot blurb released by production studios for polarity, subjectivity, and confidence - different from the usual sentiment performed on blogs or Twitter</li>
-				<li>Choropleth map of worldwide interest in movies by genre, and using genre interest to determine if movies of that genre will be successful in that region</li>
+				<li>Linear and Logistic Regression</li>
+				<li>K-Nearest Neighbor Classification</li>
+				<li>Support Vector Machine Classification</li>
+				<li>Custom Movie Prediction</li>
+				<li>Description Scatter Plots</li>
+				<li>Actor Relationship Graph - How Much Value Does This Actor Add?</li>
+				<li>Choropleth Map - Movie Popularity by Country</li>
+				<li>Time Bar Chart</li>
+				<li>Treemap - Relative Popularity of Each Movie by Rating</li>
 				</ul>
-				<h4>Description of Approaches</h4>
-				<p>We will use linear regression to predict domestic box office gross using the following features: budget, movie rating, runtime, pre-screen critic ratings, month and year of release, Youtube likes/dislikes, plot description sentiment, and average revenue added for each actor, director, language, genre, rating, production company, and distribution company within the training period. We will also use SVM and KNN, on the same features, to categorize whether an upcoming movie will be profitable. Our user interface will be a web-based GUI built on D3, to display all visualizations in one place. We will have an actor social graph showing association between actors based on average revenue added, a time-bar visualization showing the relationship between release date and revenue, a tree map with a dropdown to quickly visualize the common and generated features we use in our prediction models, and a world map visualization of with what relative frequency people search for movies by genre and the country the movie was produced in.</p>
-				<h4>Experiments</h4>
-				<p>We will use data from 2005-2018, selecting the “top” movies according to IMDb for each year, and removing rows for which there is insufficient data. Data gathered from IMDb, MetaCritic, Youtube, AYLien sentiment, Box Office Mojo, and Google Trends. </p>
-
-				<p>Our regression experiment predicts the raw domestic gross that a movie will yield during an average 6-week run in box offices based on data that would be available about 1-week in advance of the first screening (pre-screen critic reviews, budget, and Youtube trailer like/dislike ratio). We will use SVM and KNN to predict whether a movie will outperform its budget. For the test data, we will simulate being blind to any future metrics such as user reviews or profit. </p>
-
-				<h4>Evaluation</h4>
-				<p>We expect to be able to predict earned box office revenue within ten percent of the actual results. We want to be able to predict movie profitability better with our additional generated features than with what we refer to as “common” data (features such as budget, release date, etc. which can simply be found on the web). </p>
+				
 
 
 		    </div>
