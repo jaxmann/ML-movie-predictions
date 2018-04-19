@@ -56,8 +56,25 @@
 		}
     #sigma-container {
       max-width: 100%;
-      height: 625px;
+      height: 575px;
       margin: auto;
+    }
+    #actor-scale {
+      float: right;
+      width: 215px;
+    }
+    #color-scale {
+      height: 10px;
+      width: 215px;
+      margin-right:20px;
+      background: blue;
+      background: linear-gradient(to right, #0fe24c,  #00e24c, #099499, #002df5, #11183e);
+    }
+    #low-color {
+      float: left;
+    }
+    #high-color {
+      float: right;
     }
 		</style>
 		</head>
@@ -307,6 +324,12 @@
 		    <div id="menu6" class="tab-pane fade">
 		      <h3>Actor Graph</h3>
           <div id="sigma-container"></div>
+          <div id="actor-scale">
+            <p>Gross Revenue of Actor's Movies</p>
+            <div id="color-scale"></div>
+            <div id="low-color">$1M</div>
+            <div id="high-color">$500M</div>
+          </div>
         </div>
 
 
