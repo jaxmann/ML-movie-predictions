@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+  #sigma-container {
+    max-width: 1600px;
+    height: 770px;
+    margin: auto;
+  }
+</style>
+</head>
+<body>
+  <div id="sigma-container"></div>
+  <script type="text/javascript" src="../Site/vend/sigma.min.js"></script>
+  <script type="text/javascript" src="../Site/vend/sigma.parsers.gexf.min.js"></script>
+  <script>
+
+    sigma.parsers.gexf(
+      'actorGraph6.gexf',
+      { // Here is the ID of the DOM element that
+        // will contain the graph:
+        container: 'sigma-container'
+      },
+      function(s) {
+        // This function will be executed when the
+        // graph is displayed, with "s" the related
+        // sigma instance.
+        console.log("HERE");
+      }
+    );
+  </script>
+</body>
+</html>
