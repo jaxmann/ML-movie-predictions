@@ -10,7 +10,7 @@
 		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 		  <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
-		  
+
 		  <!-- Latest compiled and minified CSS -->
 
 		  <!-- Optional theme -->
@@ -36,6 +36,8 @@
 			<script type="text/javascript" src="d3-queue.v3.min.js"></script>
 			<script type="text/javascript" src="topojson.v1.min.js"></script>
 			<script type="text/javascript" src="d3.tip.v0.6.3.js"></script>
+      <script type="text/javascript" src="../Site/Vend/sigma.min.js"></script>
+      <script type="text/javascript" src="../Site/Vend/sigma.parsers.gexf.min.js"></script>
 		<style>
 		.form-group {
 			/*width: 25%;*/
@@ -49,6 +51,11 @@
 			left:10px;*/
 			width:150px;
 		}
+    #sigma-container {
+      max-width: 1600px;
+      height: 625px;
+      margin: auto;
+    }
 		</style>
 		</head>
 		<body>
@@ -92,7 +99,7 @@
 				<h4>Evaluation</h4>
 				<p>We expect to be able to predict earned box office revenue within ten percent of the actual results. We want to be able to predict movie profitability better with our additional generated features than with what we refer to as “common” data (features such as budget, release date, etc. which can simply be found on the web). </p>
 
-		      
+
 		    </div>
 
 		    <div id="menu1" class="tab-pane fade">
@@ -124,7 +131,7 @@
 				</td>
 				</tr>
 			  </table>
-				
+
 			  <p>These confusion matricies may be a little confusing, so allow us to explain: the vertical axis tells us whether the movie was actually profitable or not (1 or 0 respectively), while the horizontal axis tells us what the classifier predicted. For the KNN models using common features where K = 10, K = 20, and K = 50, the model would just always predict that the movie was not profitable, which obviously is not always the case. This basically means that the classifier is bad. Only with the K = 5 model on the far left were there any predictions of profitability, but it only got 14% of them correct. The ideal confusion matrix would have 1.0 in the top left corner and bottom right corner. Achieving the ideal is an extremely hard task to do with testing data (i.e. data not used to train the classifier).</p>
 
 			  <p>In order to improve the classification results, we generated new features and appended them to the common features. With our new approach, we got the following confusion matricies: </p>
@@ -163,7 +170,7 @@
 		    </div>
 
 		    <div id="menu4" class="tab-pane fade">
-		      <h3>Custom Features (subset)</h3>	
+		      <h3>Custom Features (subset)</h3>
 		      <form>
 		      	<div class="row">
 			      <div class="col-xs-6 form-group">
@@ -221,7 +228,7 @@
   				    <small id="emailHelp" class="form-text text-muted">Sent to AYLIEN sentiment analysis</small>
  				  </div>
  				</div>
-			      
+
 			 <div class="btn-group">
 			  <button type="button" id="ols-button" class="btn btn-default">Lin Reg (OLS)</button>
 			  <button type="button" id="svm-button" class="btn btn-default">SVM</button>
@@ -239,10 +246,10 @@
 			    </ul>
 			  </div>
 			 </div>
-			 
+
 			 </form>
 
-			
+
 
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -277,8 +284,15 @@
 
 		    <div id="menu6" class="tab-pane fade">
 		      <h3>Actor Graph</h3>
-		      <p>Actor Graph</p>
-		    </div>
+          <div id="sigma-container"></div>
+        </div>
+        <script>
+          sigma.parsers.gexf(
+            "actorGraph6.gexf",{container: 'sigma-container'},
+            function(s) {;}
+          );
+        </script>
+
 
 		    <div id="menu7" class="tab-pane fade">
 		      <h3>Choropleth</h3>
@@ -291,7 +305,7 @@
 				<option value="None" selected="selected">None</option>
 			  </select>
 			  <div id="google_trends"></div>
-			  
+
 			  <script src="map.js"></script>
 		    </div>
 
@@ -341,7 +355,7 @@
 			"NC-17": -5851569,
 			"PG-13": 9899276,
 			"R": 8133748,
-			"PG": 12706625 
+			"PG": 12706625
 		}
 
 			var inputGenre = document.getElementById("inputGenre");
@@ -390,7 +404,7 @@
 					"PG-13",
 					"R",
 					"PG"
-					
+
 				], filter: function (text, input) { //accept regex entry
 					var regex = new RegExp(input, 'i')
 					if (text.match(regex)) {
@@ -401,23 +415,23 @@
 				}
 			});
 
-			
-			
+
+
 			$('#ols-button, #svm-button, #5nn-button, #10nn-button, #20nn-button, #50nn-button').on('click', function(d) {
 				modelButtonClicked(d.target.id)
 
 			})
 
-			function formatMoney(n, c, d, t) { 
-			    c = isNaN(c = Math.abs(c)) ? 2 : c, 
-			    d = d == undefined ? "." : d, 
-			    t = t == undefined ? "," : t, 
-			    s = n < 0 ? "-" : "", 
-			    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))), 
+			function formatMoney(n, c, d, t) {
+			    c = isNaN(c = Math.abs(c)) ? 2 : c,
+			    d = d == undefined ? "." : d,
+			    t = t == undefined ? "," : t,
+			    s = n < 0 ? "-" : "",
+			    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
 			    j = (j = i.length) > 3 ? j % 3 : 0;
 			   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 			}
-			
+
 
 			function modelButtonClicked(b) {
 
@@ -505,12 +519,12 @@
 							pred = pred.toFixed(2)
 							pred = formatMoney(pred, 2)
 							$("#modalContent").text(pred)
-							// window.alert(modelType + " predicted revenue: " + obj["prediction"]);	
+							// window.alert(modelType + " predicted revenue: " + obj["prediction"]);
 						} else {
 							$("#modalContent").text(obj["prediction"])
-							// window.alert(modelType + " - profitable? " + obj["prediction"]);	
+							// window.alert(modelType + " - profitable? " + obj["prediction"]);
 						}
-						
+
 						//display popup with results
 						// window.location.replace("/");
 					},
@@ -526,7 +540,7 @@
 		// 	  application_id: "ebf48a90",
 		// 	  application_key: "a361dcf16a15317234bc3df4cbd75f95"
 		// 	});
-			
+
 		// 	textapi.sentiment({
 		// 		'text': plot.toString()
 		// 	}, function(error, response) {
@@ -538,5 +552,5 @@
 		// 	})
 		// }
 		</script>
-		
+
 		</html>
