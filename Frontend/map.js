@@ -3,10 +3,10 @@ var queue = d3.queue();
 
 // Initial variables
 var margin = {top: 100, right: 90, bottom: 30, left: 50};
-	w = 1500 - margin.left - margin.right;
-	h = 600 - margin.top - margin.bottom;
-	legendwidth = 50;
-	legendheight = 30;
+var w = 1000 - margin.left - margin.right;
+var h = 600 - margin.top - margin.bottom;
+var legendwidth = 50;
+var legendheight = 30;
 
 	
 // Colors from http://colorbrewer2.org/#type=sequential&scheme=OrRd&n=9
