@@ -295,7 +295,10 @@
 
 		    <div id="menu5" class="tab-pane fade">
 		      <h3>Scatter Plots</h3>
-		      <p>Scatter Plots</p>
+
+		      <div id="graph"></div>
+    <div id="scatter"></div>
+    <!-- <div id="treemap"></div> -->
 
 
 
@@ -349,6 +352,8 @@
 
 		</body>
 		<script>
+
+
 
 		genreDict = {
 			"Sci-Fi": 7103249,
@@ -578,12 +583,12 @@
 		// }
 		</script>
     <script>
-        var dataURL = "../Site/res/fullData-cleaner.csv";
+        var dataURL = "fulldata-cleaner.csv";
 
         Plotly.d3.csv(dataURL, function(err, rawData) {
             if (err) throw err;
 
-            var data = prepData(rawData);
+            var data = prepDataTree(rawData);
 
             var visualization = d3plus.viz()
                 .container("#treemap")
@@ -598,9 +603,11 @@
                 })
                 .labels({"align": "left", "valign": "top"})
                 .draw()
+
+
         });
 
-        function prepData(rawData) {
+        function prepDataTree(rawData) {
             var clean = [];
 
             rawData.forEach(function(datum, i) {
@@ -611,6 +618,76 @@
 
             return clean;
         }
+
+        // scatter plots
+        var dataURL = "fulldata-cleaner.csv";
+        var xField = "releaseDate";
+        var yField = "domesticTotalGross";
+
+        var selectorOptions = {
+            buttons: [{
+                step: 'month',
+                stepmode: 'backward',
+                count: 1,
+                label: '1m'
+            }, {
+                step: 'month',
+                stepmode: 'backward',
+                count: 6,
+                label: '6m'
+            }, {
+                step: 'year',
+                stepmode: 'todate',
+                count: 1,
+                label: 'YTD'
+            }, {
+                step: 'year',
+                stepmode: 'backward',
+                count: 1,
+                label: '1y'
+            }, {
+                step: 'all',
+            }],
+        };
+
+        Plotly.d3.csv(dataURL, function(err, rawData) {
+            if (err) throw err;
+
+            var data = prepDataScatter(rawData);
+            var layout = {
+                title: "Revenue vs Release Date",
+                xaxis: {
+                    rangeselector: selectorOptions,
+                    rangeslider: {}
+                },
+                yaxis: {
+                    fixedrange: true
+                }
+            };
+            Plotly.plot('graph', data, layout);
+        });
+
+        function prepDataScatter(rawData) {
+            var x = [];
+            var y = [];
+            var text = [];
+
+            rawData.forEach(function(datum, i) {
+                x.push(new Date(datum[xField]));
+                y.push(datum[yField]);
+                text.push(datum["title"]);
+            });
+
+            return [{
+                mode: "markers",
+                type: "scatter",
+                x: x,
+                y: y,
+                text: text
+            }];
+        }
+
+
 
     </script>
 		</html>
