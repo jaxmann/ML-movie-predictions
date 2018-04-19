@@ -44,9 +44,10 @@
 			display: block;
 		}
 		#inds{
-			position:absolute;
-			top:160px;
-			left:10px;
+			/*position:absolute;*/
+			/*top:160px;
+			left:10px;*/
+			width:150px;
 		}
 		</style>
 		</head>
@@ -96,7 +97,6 @@
 
 		    <div id="menu1" class="tab-pane fade">
 		      <h3>Linear Regression (OLS) Model</h3>
-		      <p>Linear Regression with Ordinary Least Squares<br></br>
 			  There are many factors that were considered when building the linear regression model.
 			  Below are images showing the correlation of the various attributes</p>
 			  <img src="correlation.png" alt = "Correlation" width="75%" >
@@ -282,14 +282,16 @@
 
 		    <div id="menu7" class="tab-pane fade">
 		      <h3>Choropleth</h3>
+		      <p>Google trends has an API that allowed us to query the relative frequency of searches for a movie by country.
+			  Every movie has a country with a value of 100, which is the country with the highest relative frequency,
+			  and all the other values are relative to this country. The frequency does take into account population size,
+			  so it is about the percentage of people who search for the movie on google.</p>
+
 		      <select id="inds" onchange="onChange()">
 				<option value="None" selected="selected">None</option>
 			  </select>
 			  <div id="google_trends"></div>
-			  <p>Google trends has an API that allowed us to query the relative frequency of searches for a movie by country.
-			  Every movie has a country with a value of 100, which is the country with the highest relative frequency,
-			  and all the other values are relative to this country. The frequency does take into account population size,
-			  so it is about the percentage of people who search for the movie on google.</p>
+			  
 			  <script src="map.js"></script>
 		    </div>
 
