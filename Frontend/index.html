@@ -39,6 +39,8 @@
 			<script type="text/javascript" src="d3-queue.v3.min.js"></script>
 			<script type="text/javascript" src="topojson.v1.min.js"></script>
 			<script type="text/javascript" src="d3.tip.v0.6.3.js"></script>
+      <script type="text/javascript" src="../Site/Vend/sigma.min.js"></script>
+      <script type="text/javascript" src="../Site/Vend/sigma.parsers.gexf.min.js"></script>
 		<style>
 		.form-group {
 			/*width: 25%;*/
@@ -52,6 +54,11 @@
 			left:10px;*/
 			width:150px;
 		}
+    #sigma-container {
+      max-width: 1600px;
+      height: 625px;
+      margin: auto;
+    }
 		</style>
 		</head>
 		<body>
@@ -289,8 +296,15 @@
 
 		    <div id="menu6" class="tab-pane fade">
 		      <h3>Actor Graph</h3>
-		      <p>Actor Graph</p>
-		    </div>
+          <div id="sigma-container"></div>
+        </div>
+        <script>
+          sigma.parsers.gexf(
+            "actorGraph6.gexf",{container: 'sigma-container'},
+            function(s) {;}
+          );
+        </script>
+
 
 		    <div id="menu7" class="tab-pane fade">
 		      <h3>Choropleth</h3>
@@ -303,7 +317,7 @@
 				<option value="None" selected="selected">None</option>
 			  </select>
 			  <div id="google_trends"></div>
-			  
+
 			  <script src="map.js"></script>
 		    </div>
 
@@ -558,7 +572,6 @@
 		// 	})
 		// }
 		</script>
-
     <script>
         var dataURL = "fulldata-cleaner.csv";
 
