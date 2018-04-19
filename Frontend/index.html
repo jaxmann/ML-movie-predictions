@@ -405,6 +405,16 @@
 				modelButtonClicked(d.target.id)
 
 			})
+
+			function formatMoney(n, c, d, t) { 
+			    c = isNaN(c = Math.abs(c)) ? 2 : c, 
+			    d = d == undefined ? "." : d, 
+			    t = t == undefined ? "," : t, 
+			    s = n < 0 ? "-" : "", 
+			    i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))), 
+			    j = (j = i.length) > 3 ? j % 3 : 0;
+			   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+			}
 			
 
 			function modelButtonClicked(b) {
@@ -441,36 +451,38 @@
 					case "ols-button":
 						console.log("ols-button clicked")
 						path += "ols"
-						modelType = 'OLS'
+						modelType = 'OLS Predicted Revenue (USD)'
 						break;
 					case "svm-button":
 						console.log("svm-button clicked")
 						path += "svm"
-						modelType = 'SVM'
+						modelType = 'SVM - Profitable?'
 						break;
 					case "5nn-button":
 						console.log("5nn-button clicked")
 						path += "knn/5"
-						modelType = '5NN'
+						modelType = '5NN - Profitable?'
 						break;
 					case "10nn-button":
 						console.log("10nn-button clicked")
 						path += "knn/10"
-						modelType = '10NN'
+						modelType = '10NN - Profitable?'
 						break;
 					case "20nn-button":
 						console.log("20nn-button clicked")
 						path += "knn/20"
-						modelType = '20NN'
+						modelType = '20NN - Profitable?'
 						break;
 					case "50nn-button":
 						console.log("50nn-button clicked")
 						path += "knn/50"
-						modelType = '50NN'
+						modelType = '50NN - Profitable?'
 						break;
 					default:
 						console.log("other")
 				}
+
+
 
 				$.ajax({
 					type : 'GET',
@@ -486,11 +498,14 @@
 						$("#exampleModalLongTitle").css("font-size","18px")
 						$("#exampleModalLongTitle").css("font-weight","bold")
 
-						if (modelType == 'OLS') {
-							$("#modalContent").text("Predicted revenue: " + obj["prediction"])
+						if (modelType == 'OLS Predicted Revenue (USD)') {
+							pred = obj["prediction"]
+							pred = pred.toFixed(2)
+							pred = formatMoney(pred, 2)
+							$("#modalContent").text(pred)
 							// window.alert(modelType + " predicted revenue: " + obj["prediction"]);	
 						} else {
-							$("#modalContent").text("Profitable? " + obj["prediction"])
+							$("#modalContent").text(obj["prediction"])
 							// window.alert(modelType + " - profitable? " + obj["prediction"]);	
 						}
 						
