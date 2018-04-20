@@ -56,25 +56,51 @@
 		}
     #sigma-container {
       max-width: 100%;
-      height: 575px;
+      height: 565px;
       margin: auto;
     }
-    #actor-scale {
+    #actor-color-scale {
       float: right;
       width: 215px;
+    }
+    #actor-size-scale {
+      float: left;
+      width: 235x;
     }
     #color-scale {
       height: 10px;
       width: 215px;
+      margin-top: 5px;
+      margin-bottom: 5px;
       margin-right:20px;
-      background: blue;
       background: linear-gradient(to right, #0fe24c,  #00e24c, #099499, #002df5, #11183e);
     }
-    #low-color {
+    #size-scale {
+      height: 20px;
+    }
+    #low-value {
       float: left;
     }
-    #high-color {
+    #high-value {
       float: right;
+    }
+    .small-circle {
+      float: left;
+      height: 5px;
+      width: 5px;
+      margin-top:8px;
+      margin-left:5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .big-circle {
+      float: right;
+      height: 20px;
+      width: 20px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
     }
 		</style>
 		</head>
@@ -115,7 +141,7 @@
 				<li>Time Bar Chart</li>
 				<li>Treemap - Relative Popularity of Each Movie by Rating</li>
 				</ul>
-				
+
 
 
 		    </div>
@@ -321,11 +347,22 @@
 		    <div id="menu6" class="tab-pane fade">
 		      <h3>Actor Graph</h3>
           <div id="sigma-container"></div>
-          <div id="actor-scale">
-            <p>Gross Revenue of Actor's Movies</p>
+          <div id="actor-size-scale">
+            <p style="margin:0px;">Movies Actor has been in (2005-2017)</p>
+            <div id="size-scale">
+              <span class="small-circle"></span>
+              <span class="big-circle"></span>
+            </div>
+            <div>
+              <div id="low-value">1</div>
+              <div id="high-value">48</div>
+            </div>
+          </div>
+          <div id="actor-color-scale">
+            <p style="margin:0px;">Gross Revenue of Actor's Movies</p>
             <div id="color-scale"></div>
-            <div id="low-color">$1M</div>
-            <div id="high-color">$500M</div>
+            <div id="low-value">$1M</div>
+            <div id="high-value">$500M</div>
           </div>
         </div>
 
